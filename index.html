@@ -1,388 +1,449 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>
-        Razón Equivalente Más Simple
-    </title>
-
+    <title>Razón Equivalente Más Simple</title>
 
     <style>
 
-        /* =====================================================
-           VARIABLES
-        ===================================================== */
+        /* =========================================================
+           VARIABLES GENERALES
+        ========================================================= */
 
         :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #7c3aed;
+            --success: #16a34a;
+            --danger: #dc2626;
+            --warning: #f59e0b;
 
-            --azul: #2563eb;
+            --dark: #172033;
+            --text: #334155;
+            --muted: #64748b;
 
-            --azul-oscuro: #172554;
+            --light: #f8fafc;
+            --white: #ffffff;
 
-            --azul-claro: #dbeafe;
+            --border: #e2e8f0;
 
-            --morado: #7c3aed;
+            --shadow:
+                0 20px 50px rgba(15, 23, 42, 0.12);
 
-            --verde: #16a34a;
-
-            --verde-claro: #dcfce7;
-
-            --rojo: #dc2626;
-
-            --rojo-claro: #fee2e2;
-
-            --amarillo: #f59e0b;
-
-            --gris: #64748b;
-
-            --fondo: #f4f7fb;
-
-            --blanco: #ffffff;
-
-            --sombra:
-                0 15px 40px rgba(15, 23, 42, .10);
-
+            --radius: 22px;
         }
 
 
-        /* =====================================================
+        /* =========================================================
            RESET
-        ===================================================== */
+        ========================================================= */
 
         * {
-
             box-sizing: border-box;
-
             margin: 0;
-
             padding: 0;
-
         }
-
 
         html {
-
             scroll-behavior: smooth;
-
         }
 
-
         body {
-
             font-family:
                 "Segoe UI",
+                Roboto,
                 Arial,
                 sans-serif;
 
+            min-height: 100vh;
+
             background:
-                var(--fondo);
+                linear-gradient(
+                    135deg,
+                    #eff6ff 0%,
+                    #f5f3ff 50%,
+                    #ecfeff 100%
+                );
 
-            color:
-                #1f2937;
-
-            overflow: hidden;
-
+            color: var(--text);
         }
 
 
-        button,
-        input {
-
-            font-family: inherit;
-
-        }
-
-
-        button {
-
-            cursor: pointer;
-
-        }
-
-
-        /* =====================================================
-           CONTENEDOR PRINCIPAL
-        ===================================================== */
-
-        #app {
-
-            width: 100vw;
-
-            height: 100vh;
-
-            overflow: hidden;
-
-            position: relative;
-
-        }
-
-
-        /* =====================================================
+        /* =========================================================
            PANTALLAS
-        ===================================================== */
+        ========================================================= */
 
         .screen {
-
-            position: absolute;
-
-            inset: 0;
-
-            width: 100%;
-
-            height: 100%;
-
             display: none;
 
-            overflow-y: auto;
+            min-height: 100vh;
 
             padding:
-                70px 6% 110px;
+                25px
+                20px
+                40px;
 
+            animation: fadeIn 0.5s ease;
         }
-
 
         .screen.active {
-
             display: flex;
-
             justify-content: center;
-
-            align-items: center;
-
-            animation:
-                screenIn .5s ease;
-
+            align-items: flex-start;
         }
 
 
-        @keyframes screenIn {
-
+        @keyframes fadeIn {
             from {
-
                 opacity: 0;
-
-                transform:
-                    translateX(35px);
-
+                transform: translateY(15px);
             }
 
             to {
-
                 opacity: 1;
-
-                transform:
-                    translateX(0);
-
+                transform: translateY(0);
             }
-
         }
 
 
-        /* =====================================================
-           FONDOS
-        ===================================================== */
+        /* =========================================================
+           CONTENEDOR PRINCIPAL
+        ========================================================= */
 
-        #welcomeScreen {
+        .container {
+            width: 100%;
+            max-width: 1050px;
+            margin: 0 auto;
+        }
+
+
+        /* =========================================================
+           ENCABEZADO INSTITUCIONAL
+           
+           LOGO IZQUIERDA
+           TÍTULO DERECHA
+        ========================================================= */
+
+        .institution-header {
+            width: 100%;
 
             background:
+                rgba(255, 255, 255, 0.96);
 
-                radial-gradient(
-                    circle at 10% 20%,
-                    #93c5fd,
-                    transparent 25%
-                ),
+            border:
+                1px solid var(--border);
 
-                radial-gradient(
-                    circle at 90% 80%,
-                    #c4b5fd,
-                    transparent 25%
-                ),
+            border-radius: 16px;
 
-                linear-gradient(
-                    135deg,
-                    #eff6ff,
-                    #f5f3ff
-                );
+            padding:
+                10px
+                18px;
 
+            display: flex;
+
+            align-items: center;
+
+            gap: 16px;
+
+            margin-bottom: 18px;
+
+            box-shadow:
+                0 6px 20px
+                rgba(15, 23, 42, 0.08);
+
+            position: relative;
+
+            overflow: hidden;
         }
 
 
-        #lessonScreen {
+        /*
+           Línea decorativa superior
+        */
 
-            background:
-                #f8fafc;
+        .institution-header::before {
+            content: "";
 
-        }
+            position: absolute;
 
-
-        #quizScreen {
-
-            background:
-
-                linear-gradient(
-                    135deg,
-                    #eff6ff,
-                    #f0fdf4
-                );
-
-        }
-
-
-        #resultScreen {
-
-            background:
-
-                radial-gradient(
-                    circle at 15% 20%,
-                    #bfdbfe,
-                    transparent 25%
-                ),
-
-                radial-gradient(
-                    circle at 85% 80%,
-                    #ddd6fe,
-                    transparent 25%
-                ),
-
-                #f8fafc;
-
-        }
-
-
-        /* =====================================================
-           PANTALLA DE INICIO
-        ===================================================== */
-
-        .welcome-card {
+            top: 0;
+            left: 0;
 
             width: 100%;
+            height: 3px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    var(--primary),
+                    var(--secondary)
+                );
+        }
+
+
+        /*
+           LOGO
+        */
+
+        .institution-logo {
+            width: 48px;
+            height: 48px;
+
+            object-fit: contain;
+
+            flex-shrink: 0;
+
+            display: block;
+        }
+
+
+        /*
+           Separador + información
+        */
+
+        .institution-info {
+            text-align: left;
+
+            border-left:
+                2px solid var(--border);
+
+            padding-left: 16px;
+
+            min-width: 0;
+        }
+
+
+        /*
+           Nombre del tema
+        */
+
+        .institution-info strong {
+            display: block;
+
+            font-size: 1.25rem;
+
+            color: var(--dark);
+
+            line-height: 1.2;
+
+            font-weight: 800;
+        }
+
+
+        /*
+           Integrantes
+        */
+
+        .institution-info span {
+            display: block;
+
+            font-size: 0.75rem;
+
+            color: var(--muted);
+
+            margin-top: 5px;
+
+            line-height: 1.4;
+        }
+
+
+        /* =========================================================
+           TARJETAS
+        ========================================================= */
+
+        .card {
+            background: var(--white);
+
+            border-radius: var(--radius);
+
+            padding: 35px;
+
+            box-shadow: var(--shadow);
+
+            border:
+                1px solid
+                rgba(226, 232, 240, 0.9);
+        }
+
+
+        /* =========================================================
+           PANTALLA DE INICIO
+        ========================================================= */
+
+        .welcome-card {
+            text-align: center;
 
             max-width: 850px;
 
-            background:
-                rgba(255,255,255,.94);
-
-            border-radius: 35px;
-
-            padding:
-                55px 45px;
-
-            text-align: center;
-
-            box-shadow:
-                0 25px 70px
-                rgba(15,23,42,.15);
-
+            margin: 0 auto;
         }
 
 
         .welcome-icon {
+            width: 90px;
+            height: 90px;
 
-            font-size: 85px;
+            margin:
+                0 auto
+                20px;
 
-            margin-bottom: 15px;
+            border-radius: 50%;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--primary),
+                    var(--secondary)
+                );
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            font-size: 45px;
+
+            color: white;
+
+            box-shadow:
+                0 15px 35px
+                rgba(37, 99, 235, 0.25);
 
             animation:
                 floating 3s ease-in-out infinite;
-
         }
 
 
         @keyframes floating {
 
-            0%, 100% {
-
-                transform:
-                    translateY(0);
-
+            0%,
+            100% {
+                transform: translateY(0);
             }
 
             50% {
-
-                transform:
-                    translateY(-12px);
-
+                transform: translateY(-8px);
             }
-
-        }
-
-
-        .badge {
-
-            display: inline-block;
-
-            padding:
-                8px 18px;
-
-            border-radius: 30px;
-
-            background:
-                var(--azul-claro);
-
-            color:
-                #1d4ed8;
-
-            font-weight: 700;
-
-            font-size: 14px;
-
-            margin-bottom: 18px;
-
         }
 
 
         .welcome-card h1 {
+            color: var(--dark);
 
             font-size:
-                clamp(40px, 7vw, 75px);
+                clamp(
+                    2rem,
+                    5vw,
+                    3.3rem
+                );
 
-            line-height: 1;
+            line-height: 1.1;
 
-            color:
-                var(--azul-oscuro);
-
-            margin-bottom: 22px;
-
+            margin-bottom: 15px;
         }
 
 
-        .welcome-card p {
+        .welcome-card h1 span {
+            color: var(--primary);
+        }
 
-            max-width: 680px;
+
+        .welcome-description {
+            max-width: 650px;
 
             margin:
-                0 auto 25px;
+                0 auto
+                25px;
 
-            font-size: 19px;
+            color: var(--muted);
+
+            font-size: 1.05rem;
 
             line-height: 1.7;
-
-            color:
-                #475569;
-
         }
 
 
-        .student-form {
+        /* =========================================================
+           INTEGRANTES
+        ========================================================= */
 
-            max-width: 500px;
+        .team-box {
+            background:
+                #f8fafc;
+
+            border:
+                1px solid
+                var(--border);
+
+            border-radius: 18px;
+
+            padding: 20px;
 
             margin:
-                30px auto 0;
-
+                25px
+                0;
         }
 
 
-        .student-form label {
+        .team-box h3 {
+            color: var(--dark);
 
+            margin-bottom: 15px;
+
+            font-size: 1rem;
+        }
+
+
+        .team {
+            display: flex;
+
+            justify-content: center;
+
+            flex-wrap: wrap;
+
+            gap: 10px;
+        }
+
+
+        .member {
+            background: white;
+
+            border:
+                1px solid
+                var(--border);
+
+            border-radius: 999px;
+
+            padding:
+                8px
+                14px;
+
+            color: var(--text);
+
+            font-size: 0.85rem;
+
+            box-shadow:
+                0 3px 8px
+                rgba(15, 23, 42, 0.05);
+        }
+
+
+        /* =========================================================
+           INPUT
+        ========================================================= */
+
+        .input-group {
+            max-width: 450px;
+
+            margin:
+                25px
+                auto;
+        }
+
+
+        .input-group label {
             display: block;
 
             text-align: left;
@@ -391,1191 +452,146 @@
 
             margin-bottom: 8px;
 
+            color: var(--dark);
         }
 
 
-        .student-form input {
-
+        .input-group input {
             width: 100%;
 
             padding:
-                17px 20px;
+                14px
+                16px;
 
             border:
-                2px solid #cbd5e1;
+                2px solid
+                var(--border);
 
-            border-radius: 16px;
+            border-radius: 12px;
 
-            font-size: 18px;
+            font-size: 1rem;
 
             outline: none;
 
-            transition: .3s;
-
+            transition:
+                border-color 0.2s,
+                box-shadow 0.2s;
         }
 
 
-        .student-form input:focus {
-
-            border-color:
-                var(--azul);
+        .input-group input:focus {
+            border-color: var(--primary);
 
             box-shadow:
                 0 0 0 4px
-                rgba(37,99,235,.10);
-
+                rgba(37, 99, 235, 0.1);
         }
 
 
-        .error-message {
-
-            color:
-                var(--rojo);
-
-            font-weight: 600;
-
-            min-height: 25px;
-
-            margin-top: 8px;
-
-        }
-
-
-        /* =====================================================
+        /* =========================================================
            BOTONES
-        ===================================================== */
+        ========================================================= */
 
         .btn {
-
             border: none;
 
-            border-radius: 50px;
+            border-radius: 12px;
 
             padding:
-                15px 28px;
+                13px
+                22px;
 
-            font-size: 17px;
+            font-size: 1rem;
 
             font-weight: 700;
 
-            display: inline-flex;
+            cursor: pointer;
 
-            justify-content: center;
+            transition:
+                transform 0.2s,
+                box-shadow 0.2s,
+                background 0.2s;
+
+            display: inline-flex;
 
             align-items: center;
 
-            gap: 9px;
+            justify-content: center;
 
-            transition:
-                .25s;
-
-            text-decoration: none;
-
+            gap: 8px;
         }
 
 
         .btn:hover {
+            transform: translateY(-2px);
 
-            transform:
-                translateY(-3px);
+            box-shadow:
+                0 8px 20px
+                rgba(15, 23, 42, 0.15);
+        }
 
+
+        .btn:active {
+            transform: translateY(0);
         }
 
 
         .btn-primary {
-
-            background:
-                var(--azul);
-
-            color:
-                white;
-
-            box-shadow:
-                0 10px 25px
-                rgba(37,99,235,.25);
-
-        }
-
-
-        .btn-primary:hover {
-
-            background:
-                #1d4ed8;
-
-        }
-
-
-        .btn-purple {
-
-            background:
-                var(--morado);
-
-            color:
-                white;
-
-        }
-
-
-        .btn-green {
-
-            background:
-                var(--verde);
-
-            color:
-                white;
-
-        }
-
-
-        .btn-gray {
-
-            background:
-                #e2e8f0;
-
-            color:
-                #334155;
-
-        }
-
-
-        /* =====================================================
-           BARRA DE PROGRESO
-        ===================================================== */
-
-        .top-progress {
-
-            position: fixed;
-
-            top: 0;
-
-            left: 0;
-
-            width: 100%;
-
-            height: 7px;
-
-            background:
-                rgba(0,0,0,.07);
-
-            z-index: 1000;
-
-        }
-
-
-        .top-progress-bar {
-
-            height: 100%;
-
-            width: 0%;
-
-            background:
-                linear-gradient(
-                    90deg,
-                    var(--azul),
-                    var(--morado)
-                );
-
-            transition:
-                width .5s ease;
-
-        }
-
-
-        /* =====================================================
-           CABECERA DE LECCIÓN
-        ===================================================== */
-
-        .lesson-wrapper {
-
-            width: 100%;
-
-            max-width: 1100px;
-
-            margin: auto;
-
-            text-align: center;
-
-        }
-
-
-        .lesson-wrapper h2 {
-
-            font-size:
-                clamp(35px, 5vw, 58px);
-
-            color:
-                var(--azul-oscuro);
-
-            margin-bottom: 20px;
-
-        }
-
-
-        .lesson-wrapper > p {
-
-            max-width: 850px;
-
-            margin:
-                0 auto 25px;
-
-            font-size: 18px;
-
-            line-height: 1.7;
-
-        }
-
-
-        /* =====================================================
-           DIAPOSITIVAS
-        ===================================================== */
-
-        .lesson-slide {
-
-            display: none;
-
-            animation:
-                lessonIn .5s ease;
-
-        }
-
-
-        .lesson-slide.active {
-
-            display: block;
-
-        }
-
-
-        @keyframes lessonIn {
-
-            from {
-
-                opacity: 0;
-
-                transform:
-                    translateY(20px);
-
-            }
-
-            to {
-
-                opacity: 1;
-
-                transform:
-                    translateY(0);
-
-            }
-
-        }
-
-
-        .lesson-number {
-
-            display: inline-block;
-
-            padding:
-                8px 18px;
-
-            background:
-                var(--azul-claro);
-
-            color:
-                #1d4ed8;
-
-            border-radius: 30px;
-
-            font-size: 14px;
-
-            font-weight: 700;
-
-            margin-bottom: 18px;
-
-        }
-
-
-        /* =====================================================
-           TARJETAS
-        ===================================================== */
-
-        .cards {
-
-            display: grid;
-
-            grid-template-columns:
-                repeat(3, 1fr);
-
-            gap: 20px;
-
-            margin-top: 30px;
-
-        }
-
-
-        .card {
-
-            background:
-                white;
-
-            border-radius: 25px;
-
-            padding: 28px;
-
-            box-shadow:
-                var(--sombra);
-
-            transition:
-                .3s;
-
-        }
-
-
-        .card:hover {
-
-            transform:
-                translateY(-7px);
-
-        }
-
-
-        .card-icon {
-
-            font-size: 45px;
-
-            margin-bottom: 12px;
-
-        }
-
-
-        .card h3 {
-
-            margin-bottom: 10px;
-
-            font-size: 23px;
-
-        }
-
-
-        .card p {
-
-            font-size: 16px;
-
-            line-height: 1.6;
-
-        }
-
-
-        /* =====================================================
-           RAZONES
-        ===================================================== */
-
-        .ratio-display {
-
-            display: flex;
-
-            justify-content: center;
-
-            align-items: center;
-
-            gap: 18px;
-
-            flex-wrap: wrap;
-
-            margin:
-                30px auto;
-
-        }
-
-
-        .ratio-number {
-
-            width: 120px;
-
-            height: 120px;
-
-            border-radius: 25px;
-
-            background:
-                white;
-
-            box-shadow:
-                var(--sombra);
-
-            display: flex;
-
-            justify-content: center;
-
-            align-items: center;
-
-            font-size: 52px;
-
-            font-weight: 800;
-
-            color:
-                var(--azul);
-
-        }
-
-
-        .ratio-colon {
-
-            font-size: 50px;
-
-            font-weight: 800;
-
-            color:
-                var(--gris);
-
-        }
-
-
-        /* =====================================================
-           ANIMACIÓN DE SIMPLIFICACIÓN
-        ===================================================== */
-
-        .animation-box {
-
-            max-width: 850px;
-
-            margin:
-                35px auto;
-
-            background:
-                white;
-
-            border-radius: 30px;
-
-            padding:
-                35px;
-
-            box-shadow:
-                var(--sombra);
-
-        }
-
-
-        .animation-title {
-
-            font-size: 22px;
-
-            font-weight: 700;
-
-            margin-bottom: 25px;
-
-        }
-
-
-        .math-animation {
-
-            display: flex;
-
-            justify-content: center;
-
-            align-items: center;
-
-            gap: 18px;
-
-            flex-wrap: wrap;
-
-            min-height: 130px;
-
-        }
-
-
-        .animated-number {
-
-            width: 105px;
-
-            height: 105px;
-
-            border-radius: 22px;
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            background:
-                #eff6ff;
-
-            color:
-                var(--azul);
-
-            font-size: 45px;
-
-            font-weight: 800;
-
-        }
-
-
-        .division {
-
-            font-size: 20px;
-
-            font-weight: 800;
-
-            color:
-                var(--verde);
-
-            opacity: 0;
-
-        }
-
-
-        .division.show {
-
-            animation:
-                appear .5s forwards;
-
-        }
-
-
-        .result-number {
-
-            width: 105px;
-
-            height: 105px;
-
-            border-radius: 22px;
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            background:
-                var(--verde-claro);
-
-            color:
-                var(--verde);
-
-            font-size: 45px;
-
-            font-weight: 800;
-
-            opacity: 0;
-
-            transform:
-                scale(.5);
-
-        }
-
-
-        .result-number.show {
-
-            animation:
-                resultAppear .7s forwards;
-
-        }
-
-
-        @keyframes appear {
-
-            to {
-
-                opacity: 1;
-
-            }
-
-        }
-
-
-        @keyframes resultAppear {
-
-            to {
-
-                opacity: 1;
-
-                transform:
-                    scale(1);
-
-            }
-
-        }
-
-
-        /* =====================================================
-           REGLA
-        ===================================================== */
-
-        .rule {
-
-            max-width: 850px;
-
-            margin:
-                30px auto;
-
-            background:
-                white;
-
-            border-radius: 30px;
-
-            padding:
-                25px 35px;
-
-            box-shadow:
-                var(--sombra);
-
-            text-align: left;
-
-        }
-
-
-        .rule-item {
-
-            display: flex;
-
-            align-items: flex-start;
-
-            gap: 15px;
-
-            padding:
-                15px 0;
-
-            border-bottom:
-                1px solid #e2e8f0;
-
-            font-size: 18px;
-
-            line-height: 1.5;
-
-        }
-
-
-        .rule-item:last-child {
-
-            border-bottom:
-                none;
-
-        }
-
-
-        .check {
-
-            width: 32px;
-
-            height: 32px;
-
-            flex-shrink: 0;
-
-            border-radius: 50%;
-
-            background:
-                var(--verde);
-
-            color:
-                white;
-
-            display: flex;
-
-            justify-content: center;
-
-            align-items: center;
-
-            font-weight: 800;
-
-        }
-
-
-        /* =====================================================
-           NAVEGACIÓN DE LECCIÓN
-        ===================================================== */
-
-        .lesson-navigation {
-
-            display: flex;
-
-            justify-content: center;
-
-            align-items: center;
-
-            gap: 15px;
-
-            margin-top: 35px;
-
-        }
-
-
-        .lesson-counter {
-
-            padding:
-                10px 18px;
-
-            background:
-                white;
-
-            border-radius: 30px;
-
-            font-weight: 700;
-
-            box-shadow:
-                0 5px 20px
-                rgba(0,0,0,.08);
-
-        }
-
-
-        /* =====================================================
-           QUIZ
-        ===================================================== */
-
-        .quiz-wrapper {
-
-            width: 100%;
-
-            max-width: 850px;
-
-            margin: auto;
-
-        }
-
-
-        .quiz-header {
-
-            display: flex;
-
-            justify-content: space-between;
-
-            align-items: center;
-
-            flex-wrap: wrap;
-
-            gap: 10px;
-
-            margin-bottom: 20px;
-
-        }
-
-
-        .student-name-display {
-
-            font-weight: 700;
-
-            color:
-                var(--azul-oscuro);
-
-        }
-
-
-        .score-display {
-
-            background:
-                white;
-
-            padding:
-                10px 18px;
-
-            border-radius: 30px;
-
-            font-weight: 800;
-
-            box-shadow:
-                0 5px 15px
-                rgba(0,0,0,.07);
-
-        }
-
-
-        .quiz-card {
-
-            background:
-                white;
-
-            border-radius: 30px;
-
-            padding:
-                40px;
-
-            box-shadow:
-                var(--sombra);
-
-            text-align: center;
-
-        }
-
-
-        .question-number {
-
-            display: inline-block;
-
-            padding:
-                7px 16px;
-
-            border-radius: 30px;
-
-            background:
-                var(--azul-claro);
-
-            color:
-                #1d4ed8;
-
-            font-weight: 700;
-
-            margin-bottom: 20px;
-
-        }
-
-
-        .question {
-
-            font-size:
-                clamp(24px, 4vw, 34px);
-
-            font-weight: 800;
-
-            color:
-                var(--azul-oscuro);
-
-            margin-bottom: 30px;
-
-            line-height: 1.35;
-
-        }
-
-
-        /* =====================================================
-           OPCIONES
-        ===================================================== */
-
-        .options {
-
-            display: grid;
-
-            grid-template-columns:
-                repeat(2, 1fr);
-
-            gap: 15px;
-
-        }
-
-
-        .option {
-
-            border:
-                2px solid #cbd5e1;
-
-            background:
-                white;
-
-            border-radius: 18px;
-
-            padding:
-                18px;
-
-            font-size: 19px;
-
-            font-weight: 700;
-
-            transition:
-                .25s;
-
-        }
-
-
-        .option:hover {
-
-            border-color:
-                var(--azul);
-
-            transform:
-                translateY(-2px);
-
-        }
-
-
-        .option.correct {
-
-            background:
-                var(--verde-claro);
-
-            border-color:
-                var(--verde);
-
-            color:
-                #166534;
-
-        }
-
-
-        .option.incorrect {
-
-            background:
-                var(--rojo-claro);
-
-            border-color:
-                var(--rojo);
-
-            color:
-                #991b1b;
-
-        }
-
-
-        /* =====================================================
-           INPUT DE RESPUESTA
-        ===================================================== */
-
-        .answer-input {
-
-            width: 100%;
-
-            max-width: 350px;
-
-            padding:
-                18px 20px;
-
-            border:
-                2px solid #cbd5e1;
-
-            border-radius: 18px;
-
-            font-size: 24px;
-
-            text-align: center;
-
-            outline: none;
-
-            margin-bottom: 20px;
-
-        }
-
-
-        .answer-input:focus {
-
-            border-color:
-                var(--azul);
-
-            box-shadow:
-                0 0 0 4px
-                rgba(37,99,235,.10);
-
-        }
-
-
-        /* =====================================================
-           FEEDBACK
-        ===================================================== */
-
-        .quiz-feedback {
-
-            min-height: 35px;
-
-            margin-top: 20px;
-
-            font-size: 19px;
-
-            font-weight: 700;
-
-        }
-
-
-        .feedback-correct {
-
-            color:
-                var(--verde);
-
-        }
-
-
-        .feedback-incorrect {
-
-            color:
-                var(--rojo);
-
-        }
-
-
-        /* =====================================================
-           RESULTADOS
-        ===================================================== */
-
-        .result-card {
-
-            width: 100%;
-
-            max-width: 800px;
-
-            background:
-                white;
-
-            border-radius: 35px;
-
-            padding:
-                50px 35px;
-
-            text-align: center;
-
-            box-shadow:
-                var(--sombra);
-
-        }
-
-
-        .result-emoji {
-
-            font-size: 85px;
-
-            animation:
-                floating 3s ease-in-out infinite;
-
-        }
-
-
-        .result-card h1 {
-
-            color:
-                var(--azul-oscuro);
-
-            font-size:
-                clamp(35px, 6vw, 60px);
-
-            margin:
-                15px 0;
-
-        }
-
-
-        .student-result {
-
-            font-size: 23px;
-
-            color:
-                #475569;
-
-            margin-bottom: 25px;
-
-        }
-
-
-        .score-circle {
-
-            width: 190px;
-
-            height: 190px;
-
-            border-radius: 50%;
-
-            margin:
-                25px auto;
-
-            display: flex;
-
-            flex-direction: column;
-
-            justify-content: center;
-
-            align-items: center;
+            color: white;
 
             background:
                 linear-gradient(
                     135deg,
-                    #dbeafe,
-                    #ede9fe
+                    var(--primary),
+                    var(--secondary)
+                );
+        }
+
+
+        .btn-primary:hover {
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--primary-dark),
+                    #6d28d9
+                );
+        }
+
+
+        .btn-secondary {
+            background: #eef2ff;
+
+            color: #4338ca;
+        }
+
+
+        .btn-success {
+            background: var(--success);
+
+            color: white;
+        }
+
+
+        .btn-danger {
+            background: var(--danger);
+
+            color: white;
+        }
+
+
+        .btn-wordwall {
+            background:
+                linear-gradient(
+                    135deg,
+                    #f59e0b,
+                    #ea580c
                 );
 
-            border:
-                8px solid white;
-
-            box-shadow:
-                0 10px 30px
-                rgba(37,99,235,.15);
-
+            color: white;
         }
 
 
-        .score-percentage {
-
-            font-size: 48px;
-
-            font-weight: 900;
-
-            color:
-                var(--azul);
-
-        }
-
-
-        .score-label {
-
-            color:
-                var(--gris);
-
-            font-weight: 700;
-
-        }
-
-
-        .result-stats {
-
-            display: grid;
-
-            grid-template-columns:
-                repeat(3, 1fr);
-
-            gap: 15px;
-
-            margin:
-                25px auto;
-
-            max-width: 600px;
-
-        }
-
-
-        .stat {
-
-            background:
-                #f8fafc;
-
-            border-radius: 18px;
-
-            padding:
-                18px;
-
-        }
-
-
-        .stat-number {
-
-            display: block;
-
-            font-size: 30px;
-
-            font-weight: 900;
-
-            color:
-                var(--azul-oscuro);
-
-        }
-
-
-        .stat-label {
-
-            font-size: 14px;
-
-            color:
-                var(--gris);
-
-        }
-
-
-        .result-message {
-
-            font-size: 20px;
-
-            font-weight: 700;
-
-            margin:
-                20px auto;
-
-            max-width: 650px;
-
-        }
-
-
-        .result-buttons {
-
+        .button-row {
             display: flex;
 
             justify-content: center;
@@ -1584,302 +600,1125 @@
 
             gap: 12px;
 
-            margin-top: 25px;
-
+            margin-top: 20px;
         }
 
 
-        /* =====================================================
-           DECORACIÓN
-        ===================================================== */
+        /* =========================================================
+           PRESENTACIÓN
+        ========================================================= */
 
-        .decor {
+        .lesson-card {
+            min-height: 580px;
 
-            position: fixed;
+            display: flex;
+
+            flex-direction: column;
+
+            justify-content: space-between;
+        }
+
+
+        .slide {
+            display: none;
+
+            animation:
+                slideIn 0.45s ease;
+        }
+
+
+        .slide.active {
+            display: block;
+        }
+
+
+        @keyframes slideIn {
+
+            from {
+                opacity: 0;
+
+                transform:
+                    translateX(30px);
+            }
+
+            to {
+                opacity: 1;
+
+                transform:
+                    translateX(0);
+            }
+        }
+
+
+        .slide-number {
+            display: inline-block;
+
+            padding:
+                6px
+                12px;
+
+            border-radius: 999px;
+
+            background:
+                #eff6ff;
+
+            color:
+                var(--primary);
+
+            font-size: 0.8rem;
+
+            font-weight: 700;
+
+            margin-bottom: 15px;
+        }
+
+
+        .slide h2 {
+            color: var(--dark);
+
+            font-size:
+                clamp(
+                    1.8rem,
+                    4vw,
+                    2.7rem
+                );
+
+            margin-bottom: 18px;
+        }
+
+
+        .slide p {
+            font-size: 1.05rem;
+
+            line-height: 1.8;
+
+            color: var(--text);
+
+            margin-bottom: 15px;
+        }
+
+
+        .highlight {
+            color: var(--primary);
+
+            font-weight: 800;
+        }
+
+
+        /* =========================================================
+           CAJAS EDUCATIVAS
+        ========================================================= */
+
+        .info-box {
+            padding: 20px;
+
+            border-radius: 16px;
+
+            margin:
+                20px
+                0;
+
+            background:
+                #f8fafc;
+
+            border-left:
+                5px solid
+                var(--primary);
+        }
+
+
+        .info-box.success {
+            border-left-color:
+                var(--success);
+
+            background:
+                #f0fdf4;
+        }
+
+
+        .info-box.warning {
+            border-left-color:
+                var(--warning);
+
+            background:
+                #fffbeb;
+        }
+
+
+        .info-box h3 {
+            color: var(--dark);
+
+            margin-bottom: 8px;
+        }
+
+
+        /* =========================================================
+           RAZÓN VISUAL
+        ========================================================= */
+
+        .ratio-display {
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            gap: 15px;
+
+            margin:
+                35px
+                0;
+        }
+
+
+        .ratio-number {
+            width: 110px;
+            height: 110px;
+
+            border-radius: 22px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #dbeafe,
+                    #ede9fe
+                );
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 2.8rem;
+
+            font-weight: 900;
+
+            color: var(--primary);
+
+            box-shadow:
+                0 10px 25px
+                rgba(37, 99, 235, 0.12);
+
+            animation:
+                popIn 0.5s ease;
+        }
+
+
+        .ratio-symbol {
+            font-size: 2.5rem;
+
+            font-weight: 900;
+
+            color: var(--secondary);
+        }
+
+
+        @keyframes popIn {
+
+            from {
+                transform: scale(0.5);
+
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+
+                opacity: 1;
+            }
+        }
+
+
+        /* =========================================================
+           PASOS
+        ========================================================= */
+
+        .steps {
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    auto-fit,
+                    minmax(200px, 1fr)
+                );
+
+            gap: 15px;
+
+            margin-top: 25px;
+        }
+
+
+        .step {
+            background:
+                #f8fafc;
+
+            border:
+                1px solid
+                var(--border);
+
+            border-radius: 16px;
+
+            padding: 20px;
+
+            transition:
+                transform 0.2s,
+                box-shadow 0.2s;
+        }
+
+
+        .step:hover {
+            transform:
+                translateY(-4px);
+
+            box-shadow:
+                0 10px 25px
+                rgba(15, 23, 42, 0.08);
+        }
+
+
+        .step-number {
+            width: 38px;
+            height: 38px;
+
+            border-radius: 50%;
+
+            background:
+                var(--primary);
+
+            color: white;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-weight: 800;
+
+            margin-bottom: 12px;
+        }
+
+
+        .step h3 {
+            color: var(--dark);
+
+            margin-bottom: 7px;
+        }
+
+
+        .step p {
+            font-size: 0.9rem;
+
+            line-height: 1.5;
+
+            margin: 0;
+        }
+
+
+        /* =========================================================
+           BARRA DE PROGRESO
+        ========================================================= */
+
+        .progress-container {
+            margin-top: 25px;
+        }
+
+
+        .progress-bar {
+            height: 8px;
+
+            background:
+                #e2e8f0;
+
+            border-radius: 999px;
+
+            overflow: hidden;
+        }
+
+
+        .progress-fill {
+            height: 100%;
+
+            width: 0%;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    var(--primary),
+                    var(--secondary)
+                );
+
+            transition:
+                width 0.4s ease;
+        }
+
+
+        .progress-text {
+            text-align: center;
+
+            margin-top: 8px;
+
+            color: var(--muted);
+
+            font-size: 0.8rem;
+        }
+
+
+        /* =========================================================
+           CONTROLES DE PRESENTACIÓN
+        ========================================================= */
+
+        .lesson-controls {
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            gap: 15px;
+
+            margin-top: 25px;
+
+            padding-top: 20px;
+
+            border-top:
+                1px solid
+                var(--border);
+        }
+
+
+        /* =========================================================
+           QUIZ
+        ========================================================= */
+
+        .quiz-card {
+            max-width: 900px;
+
+            margin: 0 auto;
+        }
+
+
+        .quiz-header {
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            gap: 15px;
+
+            margin-bottom: 25px;
+        }
+
+
+        .question-counter {
+            font-weight: 700;
+
+            color: var(--primary);
+        }
+
+
+        .score-display {
+            padding:
+                8px
+                14px;
+
+            border-radius: 999px;
+
+            background:
+                #f0fdf4;
+
+            color:
+                var(--success);
+
+            font-weight: 800;
+        }
+
+
+        .question {
+            font-size:
+                clamp(
+                    1.3rem,
+                    3vw,
+                    1.7rem
+                );
+
+            color: var(--dark);
+
+            font-weight: 800;
+
+            line-height: 1.4;
+
+            margin-bottom: 25px;
+        }
+
+
+        .options {
+            display: grid;
+
+            gap: 12px;
+        }
+
+
+        .option {
+            width: 100%;
+
+            padding:
+                15px
+                18px;
+
+            border:
+                2px solid
+                var(--border);
+
+            border-radius: 14px;
+
+            background: white;
+
+            cursor: pointer;
+
+            text-align: left;
+
+            font-size: 1rem;
+
+            color: var(--text);
+
+            transition:
+                border-color 0.2s,
+                background 0.2s,
+                transform 0.2s;
+        }
+
+
+        .option:hover {
+            border-color:
+                var(--primary);
+
+            background:
+                #eff6ff;
+
+            transform:
+                translateX(4px);
+        }
+
+
+        .option.selected {
+            border-color:
+                var(--primary);
+
+            background:
+                #dbeafe;
+
+            color:
+                #1d4ed8;
+
+            font-weight: 700;
+        }
+
+
+        .option.correct {
+            border-color:
+                var(--success);
+
+            background:
+                #dcfce7;
+
+            color:
+                #166534;
+        }
+
+
+        .option.incorrect {
+            border-color:
+                var(--danger);
+
+            background:
+                #fee2e2;
+
+            color:
+                #991b1b;
+        }
+
+
+        /* =========================================================
+           RESPUESTA ESCRITA
+        ========================================================= */
+
+        .answer-input {
+            width: 100%;
+
+            max-width: 450px;
+
+            display: block;
+
+            margin:
+                0
+                auto
+                20px;
+
+            padding:
+                15px
+                18px;
+
+            border:
+                2px solid
+                var(--border);
+
+            border-radius: 14px;
+
+            font-size: 1.2rem;
+
+            text-align: center;
+
+            outline: none;
+        }
+
+
+        .answer-input:focus {
+            border-color:
+                var(--primary);
+
+            box-shadow:
+                0 0 0 4px
+                rgba(37, 99, 235, 0.1);
+        }
+
+
+        /* =========================================================
+           FEEDBACK
+        ========================================================= */
+
+        .feedback {
+            display: none;
+
+            margin-top: 20px;
+
+            padding: 18px;
+
+            border-radius: 14px;
+
+            font-weight: 600;
+
+            line-height: 1.5;
+        }
+
+
+        .feedback.show {
+            display: block;
+
+            animation:
+                fadeIn 0.3s ease;
+        }
+
+
+        .feedback.correct {
+            background:
+                #dcfce7;
+
+            color:
+                #166534;
+
+            border:
+                1px solid
+                #86efac;
+        }
+
+
+        .feedback.incorrect {
+            background:
+                #fee2e2;
+
+            color:
+                #991b1b;
+
+            border:
+                1px solid
+                #fca5a5;
+        }
+
+
+        /* =========================================================
+           RESULTADOS
+        ========================================================= */
+
+        .result-card {
+            max-width: 850px;
+
+            margin: 0 auto;
+
+            text-align: center;
+        }
+
+
+        .result-icon {
+            width: 100px;
+            height: 100px;
+
+            border-radius: 50%;
+
+            margin:
+                0 auto
+                20px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #16a34a,
+                    #22c55e
+                );
+
+            color: white;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
 
             font-size: 50px;
 
-            opacity: .12;
+            animation:
+                popIn 0.6s ease;
+        }
 
-            pointer-events: none;
+
+        .result-card h1 {
+            color: var(--dark);
+
+            font-size: 2.5rem;
+
+            margin-bottom: 10px;
+        }
+
+
+        .result-message {
+            color: var(--muted);
+
+            margin-bottom: 25px;
+        }
+
+
+        .score-circle {
+            width: 170px;
+            height: 170px;
+
+            border-radius: 50%;
+
+            margin:
+                25px
+                auto;
+
+            background:
+                conic-gradient(
+                    var(--primary)
+                    var(--percentage),
+                    #e2e8f0
+                    var(--percentage)
+                );
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            position: relative;
+        }
+
+
+        .score-circle::before {
+            content: "";
+
+            width: 135px;
+            height: 135px;
+
+            background: white;
+
+            border-radius: 50%;
+
+            position: absolute;
+        }
+
+
+        .score-value {
+            position: relative;
+
+            z-index: 1;
+
+            font-size: 2.5rem;
+
+            font-weight: 900;
+
+            color: var(--dark);
+        }
+
+
+        .result-details {
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    3,
+                    1fr
+                );
+
+            gap: 12px;
+
+            margin:
+                25px
+                0;
+        }
+
+
+        .result-stat {
+            padding: 18px;
+
+            background:
+                #f8fafc;
+
+            border:
+                1px solid
+                var(--border);
+
+            border-radius: 14px;
+        }
+
+
+        .result-stat strong {
+            display: block;
+
+            font-size: 1.6rem;
+
+            color: var(--primary);
+
+            margin-bottom: 5px;
+        }
+
+
+        .result-stat span {
+            color: var(--muted);
+
+            font-size: 0.85rem;
+        }
+
+
+        /* =========================================================
+           ANIMACIÓN DE ÉXITO
+        ========================================================= */
+
+        .celebration {
+            font-size: 2rem;
+
+            letter-spacing: 10px;
 
             animation:
-                floating 4s ease-in-out infinite;
-
+                celebration 1s ease-in-out infinite;
         }
 
 
-        .decor-one {
+        @keyframes celebration {
 
-            top: 12%;
-
-            left: 5%;
-
-        }
-
-
-        .decor-two {
-
-            top: 25%;
-
-            right: 6%;
-
-            animation-delay:
-                1s;
-
-        }
-
-
-        .decor-three {
-
-            bottom: 15%;
-
-            left: 10%;
-
-            animation-delay:
-                2s;
-
-        }
-
-
-        .decor-four {
-
-            bottom: 18%;
-
-            right: 12%;
-
-            animation-delay:
-                1.5s;
-
-        }
-
-
-        /* =====================================================
-           RESPONSIVE
-        ===================================================== */
-
-        @media(max-width: 800px) {
-
-
-            body {
-
-                overflow: hidden;
-
+            0%,
+            100% {
+                transform: scale(1);
             }
 
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+
+        /* =========================================================
+           FOOTER
+        ========================================================= */
+
+        .footer {
+            text-align: center;
+
+            margin-top: 20px;
+
+            color: var(--muted);
+
+            font-size: 0.75rem;
+        }
+
+
+        /* =========================================================
+           RESPONSIVE
+        ========================================================= */
+
+        @media (max-width: 700px) {
 
             .screen {
-
                 padding:
-                    60px 5% 110px;
-
-                align-items:
-                    flex-start !important;
-
+                    15px
+                    12px
+                    30px;
             }
 
 
-            .welcome-card {
+            .card {
+                padding: 22px;
+            }
 
+
+            .institution-header {
                 padding:
-                    35px 22px;
+                    9px
+                    12px;
 
+                gap: 10px;
             }
 
 
-            .cards {
-
-                grid-template-columns:
-                    1fr;
-
+            .institution-logo {
+                width: 40px;
+                height: 40px;
             }
 
 
-            .options {
-
-                grid-template-columns:
-                    1fr;
-
+            .institution-info {
+                padding-left: 10px;
             }
 
 
-            .result-stats {
+            .institution-info strong {
+                font-size: 1rem;
+            }
 
-                grid-template-columns:
-                    1fr;
 
+            .institution-info span {
+                font-size: 0.65rem;
+            }
+
+
+            .lesson-card {
+                min-height: 520px;
             }
 
 
             .ratio-number {
-
-                width: 90px;
-
-                height: 90px;
-
-                font-size: 40px;
-
-            }
-
-
-            .ratio-colon {
-
-                font-size: 35px;
-
-            }
-
-
-            .animated-number,
-            .result-number {
-
                 width: 80px;
-
                 height: 80px;
 
-                font-size: 34px;
-
+                font-size: 2rem;
             }
 
 
-            .quiz-card {
-
-                padding:
-                    28px 20px;
-
+            .ratio-symbol {
+                font-size: 1.8rem;
             }
 
 
-            .decor {
+            .result-details {
+                grid-template-columns: 1fr;
+            }
 
-                display: none;
 
+            .lesson-controls {
+                flex-direction: column;
+            }
+
+
+            .lesson-controls .btn {
+                width: 100%;
+            }
+
+        }
+
+
+        @media (max-width: 430px) {
+
+            .institution-info strong {
+                font-size: 0.9rem;
+            }
+
+
+            .institution-info span {
+                font-size: 0.58rem;
+            }
+
+
+            .institution-logo {
+                width: 36px;
+                height: 36px;
+            }
+
+
+            .welcome-card h1 {
+                font-size: 2rem;
+            }
+
+
+            .ratio-display {
+                gap: 8px;
+            }
+
+
+            .ratio-number {
+                width: 65px;
+                height: 65px;
+
+                font-size: 1.6rem;
+            }
+
+
+            .ratio-symbol {
+                font-size: 1.5rem;
             }
 
         }
 
     </style>
-
 </head>
 
 
 <body>
 
 
-<div id="app">
-
-
-    <!-- =====================================================
-         DECORACIÓN
-    ====================================================== -->
-
-    <div class="decor decor-one">
-        ➗
-    </div>
-
-    <div class="decor decor-two">
-        🔢
-    </div>
-
-    <div class="decor decor-three">
-        📐
-    </div>
-
-    <div class="decor decor-four">
-        ⭐
-    </div>
-
-
-    <!-- =====================================================
-         BARRA DE PROGRESO
-    ====================================================== -->
-
-    <div
-        class="top-progress"
-        id="topProgress"
-    >
-
-        <div
-            class="top-progress-bar"
-            id="topProgressBar"
-        ></div>
-
-    </div>
-
-
-    <!-- =====================================================
+    <!-- =========================================================
          PANTALLA DE INICIO
-    ====================================================== -->
+    ========================================================== -->
 
     <section
         id="welcomeScreen"
         class="screen active"
     >
 
-        <div class="welcome-card">
+        <div class="container">
 
 
-            <div class="welcome-icon">
-                🧮
+            <!-- ENCABEZADO INSTITUCIONAL -->
+
+            <div class="institution-header">
+
+                <img
+                    src="https://i.postimg.cc/xdnrhSyH/logo-cecespiritudanto.png"
+                    alt="Logo de la escuela"
+                    class="institution-logo"
+                >
+
+                <div class="institution-info">
+
+                    <strong>
+                        Razón Equivalente Más Simple
+                    </strong>
+
+                    <span>
+                        Gerardo Díaz · Daniel Gómez · Elyzabeth Menchu · Luis Torres · Axel Mejía
+                    </span>
+
+                </div>
+
             </div>
 
 
-            <span class="badge">
-                MATEMÁTICA INTERACTIVA
-            </span>
+            <!-- TARJETA PRINCIPAL -->
+
+            <div class="card welcome-card">
 
 
-            <h1>
-                Razón Equivalente
-                <br>
-                Más Simple
-            </h1>
+                <div class="welcome-icon">
+                    📐
+                </div>
 
 
-            <p>
-
-                Aprende de manera divertida cómo comparar cantidades,
-
-                encontrar razones equivalentes y simplificarlas
-
-                hasta obtener la razón más simple.
-
-            </p>
+                <h1>
+                    Razón <span>Equivalente</span>
+                    Más Simple
+                </h1>
 
 
-            <div class="student-form">
+                <p class="welcome-description">
+
+                    Bienvenidos a nuestra presentación
+                    interactiva de Matemática.
+                    Aprenderemos qué es una razón,
+                    cómo encontrar razones equivalentes
+                    y cómo simplificarlas hasta obtener
+                    la forma más sencilla.
+
+                </p>
 
 
-                <label for="studentName">
+                <!-- INTEGRANTES -->
 
-                    👤 Escribe tu nombre:
+                <div class="team-box">
 
-                </label>
-
-
-                <input
-                    type="text"
-                    id="studentName"
-                    placeholder="Ejemplo: María"
-                    maxlength="40"
-                    autocomplete="off"
-                >
+                    <h3>
+                        👥 Integrantes del grupo
+                    </h3>
 
 
-                <div
-                    id="nameError"
-                    class="error-message"
-                ></div>
+                    <div class="team">
+
+                        <span class="member">
+                            Gerardo Díaz
+                        </span>
+
+                        <span class="member">
+                            Daniel Gómez
+                        </span>
+
+                        <span class="member">
+                            Elyzabeth Menchu
+                        </span>
+
+                        <span class="member">
+                            Luis Torres
+                        </span>
+
+                        <span class="member">
+                            Axel Mejía
+                        </span>
+
+                    </div>
+
+                </div>
 
 
-                <button
-                    class="btn btn-primary"
-                    onclick="startLearning()"
-                >
+                <!-- NOMBRE DEL ESTUDIANTE -->
 
-                    🚀 Comenzar aprendizaje
+                <div class="input-group">
 
-                </button>
+                    <label for="studentName">
+                        👤 Escribe tu nombre
+                    </label>
 
+                    <input
+                        type="text"
+                        id="studentName"
+                        placeholder="Ejemplo: María López"
+                        maxlength="50"
+                    >
+
+                </div>
+
+
+                <div class="button-row">
+
+                    <button
+                        class="btn btn-primary"
+                        onclick="startPresentation()"
+                    >
+                        🚀 Comenzar presentación
+                    </button>
+<button
+                        class="btn btn-wordwall"
+                        onclick="openWordwall()"
+                    >
+                        🎮 Jugar en Wordwall
+                    </button>
+                </div>
+
+
+                <div class="footer">
+
+                    Presentación interactiva de Matemática
+
+                </div>
 
             </div>
 
@@ -1888,2018 +1727,2441 @@
     </section>
 
 
-    <!-- =====================================================
-         PANTALLA DE LECCIÓN
-    ====================================================== -->
+
+    <!-- =========================================================
+         PANTALLA DE PRESENTACIÓN
+    ========================================================== -->
 
     <section
         id="lessonScreen"
         class="screen"
     >
 
-        <div class="lesson-wrapper">
+        <div class="container">
 
 
-            <!-- =============================
-                 LECCIÓN 1
-            ============================== -->
+            <!-- ENCABEZADO -->
 
-            <div
-                class="lesson-slide active"
-                data-lesson="0"
-            >
+            <div class="institution-header">
 
-                <span class="lesson-number">
-                    1 · CONCEPTO
-                </span>
+                <img
+                    src="https://i.postimg.cc/xdnrhSyH/logo-cecespiritudanto.png"
+                    alt="Logo de la escuela"
+                    class="institution-logo"
+                >
 
-
-                <h2>
-                    ¿Qué es una razón?
-                </h2>
-
-
-                <p>
-
-                    Una razón es una forma de comparar dos cantidades.
-
-                    Se escribe con dos números separados por dos puntos.
-
-                </p>
-
-
-                <div class="ratio-display">
-
-                    <div class="ratio-number">
-                        8
-                    </div>
-
-                    <div class="ratio-colon">
-                        :
-                    </div>
-
-                    <div class="ratio-number">
-                        12
-                    </div>
-
-                </div>
-
-
-                <p>
-
-                    En <strong>8 : 12</strong> estamos comparando
-
-                    la cantidad 8 con la cantidad 12.
-
-                </p>
-
-            </div>
-
-
-            <!-- =============================
-                 LECCIÓN 2
-            ============================== -->
-
-            <div
-                class="lesson-slide"
-                data-lesson="1"
-            >
-
-                <span class="lesson-number">
-                    2 · ELEMENTOS
-                </span>
-
-
-                <h2>
-                    Antecedente y consecuente
-                </h2>
-
-
-                <p>
-
-                    Los dos números que forman una razón
-
-                    tienen nombres diferentes.
-
-                </p>
-
-
-                <div class="cards">
-
-
-                    <div class="card">
-
-                        <div class="card-icon">
-                            🔵
-                        </div>
-
-                        <h3>
-                            Antecedente
-                        </h3>
-
-                        <div class="math">
-                            8
-                        </div>
-
-                        <p>
-                            Es el primer número de la razón.
-                        </p>
-
-                    </div>
-
-
-                    <div class="card">
-
-                        <div class="card-icon">
-                            ➗
-                        </div>
-
-                        <h3>
-                            Separador
-                        </h3>
-
-                        <div class="math">
-                            :
-                        </div>
-
-                        <p>
-                            Indica que estamos comparando cantidades.
-                        </p>
-
-                    </div>
-
-
-                    <div class="card">
-
-                        <div class="card-icon">
-                            🟣
-                        </div>
-
-                        <h3>
-                            Consecuente
-                        </h3>
-
-                        <div class="math">
-                            12
-                        </div>
-
-                        <p>
-                            Es el segundo número de la razón.
-                        </p>
-
-                    </div>
-
-
-                </div>
-
-            </div>
-
-
-            <!-- =============================
-                 LECCIÓN 3
-            ============================== -->
-
-            <div
-                class="lesson-slide"
-                data-lesson="2"
-            >
-
-                <span class="lesson-number">
-                    3 · RAZONES EQUIVALENTES
-                </span>
-
-
-                <h2>
-                    ¿Qué significa equivalente?
-                </h2>
-
-
-                <p>
-
-                    Una razón equivalente conserva la misma relación
-
-                    entre las cantidades, aunque los números cambien.
-
-                </p>
-
-
-                <div class="ratio-display">
-
-                    <div class="ratio-number">
-                        8
-                    </div>
-
-                    <div class="ratio-colon">
-                        :
-                    </div>
-
-                    <div class="ratio-number">
-                        12
-                    </div>
-
-                    <div class="ratio-colon">
-                        =
-                    </div>
-
-                    <div class="ratio-number">
-                        2
-                    </div>
-
-                    <div class="ratio-colon">
-                        :
-                    </div>
-
-                    <div class="ratio-number">
-                        3
-                    </div>
-
-                </div>
-
-
-                <p>
-
-                    Por eso:
+                <div class="institution-info">
 
                     <strong>
-                        8 : 12 = 2 : 3
+                        Razón Equivalente Más Simple
                     </strong>
 
-                </p>
+                    <span>
+                        Gerardo Díaz · Daniel Gómez · Elyzabeth Menchu · Luis Torres · Axel Mejía
+                    </span>
+
+                </div>
 
             </div>
 
 
-            <!-- =============================
-                 LECCIÓN 4
-            ============================== -->
+            <!-- PRESENTACIÓN -->
 
-            <div
-                class="lesson-slide"
-                data-lesson="3"
-            >
-
-                <span class="lesson-number">
-                    4 · SIMPLIFICACIÓN
-                </span>
+            <div class="card lesson-card">
 
 
-                <h2>
-                    ¡Mira cómo se simplifica!
-                </h2>
+                <div>
 
 
-                <p>
+                    <!-- DIAPOSITIVA 1 -->
 
-                    Para encontrar la razón equivalente más simple,
-
-                    dividimos los dos términos entre el mismo número.
-
-                </p>
-
-
-                <div class="animation-box">
-
-
-                    <div class="animation-title">
-
-                        Ejemplo:
-
-                    </div>
-
-
-                    <div class="math-animation">
-
-
-                        <div class="animated-number">
-                            8
-                        </div>
-
-
-                        <div class="ratio-colon">
-                            :
-                        </div>
-
-
-                        <div class="animated-number">
-                            12
-                        </div>
-
-
-                        <div
-                            id="divisionText"
-                            class="division"
-                        >
-                            ÷ 4
-                        </div>
-
-
-                        <div
-                            id="resultOne"
-                            class="result-number"
-                        >
-                            2
-                        </div>
-
-
-                        <div class="ratio-colon">
-                            :
-                        </div>
-
-
-                        <div
-                            id="resultTwo"
-                            class="result-number"
-                        >
-                            3
-                        </div>
-
-                    </div>
-
-
-                    <p id="animationMessage">
-
-                        Observa cómo ambos términos se dividen
-
-                        entre el mismo número.
-
-                    </p>
-
-
-                    <button
-                        class="btn btn-primary"
-                        onclick="runSimplificationAnimation()"
+                    <div
+                        class="slide active"
+                        data-slide="0"
                     >
 
-                        ▶ Ver animación
+                        <span class="slide-number">
+                            Introducción
+                        </span>
 
-                    </button>
-
-
-                </div>
-
-            </div>
-
-
-            <!-- =============================
-                 LECCIÓN 5
-            ============================== -->
-
-            <div
-                class="lesson-slide"
-                data-lesson="4"
-            >
-
-                <span class="lesson-number">
-                    5 · REGLA
-                </span>
-
-
-                <h2>
-                    La regla que debes aprender
-                </h2>
-
-
-                <div class="rule">
-
-
-                    <div class="rule-item">
-
-                        <div class="check">
-                            ✓
-                        </div>
-
-                        <div>
-
-                            Identifica un número que pueda dividir
-
-                            al antecedente y al consecuente.
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="rule-item">
-
-                        <div class="check">
-                            ✓
-                        </div>
-
-                        <div>
-
-                            Divide los dos términos entre
-
-                            el mismo número.
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="rule-item">
-
-                        <div class="check">
-                            ✓
-                        </div>
-
-                        <div>
-
-                            Continúa simplificando si todavía es posible.
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="rule-item">
-
-                        <div class="check">
-                            ✓
-                        </div>
-
-                        <div>
-
-                            Cuando ya no puedan dividirse ambos
-
-                            por el mismo número, obtienes
-
-                            la razón equivalente más simple.
-
-                        </div>
-
-                    </div>
-
-
-                </div>
-
-            </div>
-
-
-            <!-- =============================
-                 LECCIÓN 6
-            ============================== -->
-
-            <div
-                class="lesson-slide"
-                data-lesson="5"
-            >
-
-                <span class="lesson-number">
-                    6 · VIDA REAL
-                </span>
-
-
-                <h2>
-                    ¿Dónde utilizamos las razones?
-                </h2>
-
-
-                <div class="cards">
-
-
-                    <div class="card">
-
-                        <div class="card-icon">
-                            🍰
-                        </div>
-
-                        <h3>
-                            Recetas
-                        </h3>
+                        <h2>
+                            ¿Qué es una razón?
+                        </h2>
 
                         <p>
 
-                            Comparar cantidades de ingredientes.
+                            Una <span class="highlight">
+                            razón</span> es una forma de
+                            comparar dos cantidades.
 
                         </p>
+
+                        <div class="ratio-display">
+
+                            <div class="ratio-number">
+                                8
+                            </div>
+
+                            <div class="ratio-symbol">
+                                :
+                            </div>
+
+                            <div class="ratio-number">
+                                12
+                            </div>
+
+                        </div>
+
+                        <div class="info-box">
+
+                            <h3>
+                                📌 Ejemplo
+                            </h3>
+
+                            <p>
+
+                                La razón <strong>8:12</strong>
+                                compara 8 elementos con
+                                12 elementos.
+
+                            </p>
+
+                        </div>
 
                     </div>
 
 
-                    <div class="card">
 
-                        <div class="card-icon">
-                            ⚽
-                        </div>
+                    <!-- DIAPOSITIVA 2 -->
 
-                        <h3>
-                            Deportes
-                        </h3>
+                    <div
+                        class="slide"
+                        data-slide="1"
+                    >
+
+                        <span class="slide-number">
+                            Concepto
+                        </span>
+
+                        <h2>
+                            Razones equivalentes
+                        </h2>
 
                         <p>
 
-                            Comparar puntos, goles y resultados.
+                            Dos razones son equivalentes
+                            cuando representan
+                            <span class="highlight">
+                            la misma relación</span>,
+                            aunque utilicen números
+                            diferentes.
 
                         </p>
+
+
+                        <div class="ratio-display">
+
+                            <div class="ratio-number">
+                                8
+                            </div>
+
+                            <div class="ratio-symbol">
+                                :
+                            </div>
+
+                            <div class="ratio-number">
+                                12
+                            </div>
+
+                            <div class="ratio-symbol">
+                                =
+                            </div>
+
+                            <div class="ratio-number">
+                                2
+                            </div>
+
+                            <div class="ratio-symbol">
+                                :
+                            </div>
+
+                            <div class="ratio-number">
+                                3
+                            </div>
+
+                        </div>
+
+
+                        <div class="info-box success">
+
+                            <h3>
+                                ✅ Son equivalentes
+                            </h3>
+
+                            <p>
+
+                                <strong>8:12 = 2:3</strong>
+
+                                porque ambas representan
+                                la misma relación.
+
+                            </p>
+
+                        </div>
 
                     </div>
 
 
-                    <div class="card">
 
-                        <div class="card-icon">
-                            🛒
-                        </div>
+                    <!-- DIAPOSITIVA 3 -->
 
-                        <h3>
-                            Compras
-                        </h3>
+                    <div
+                        class="slide"
+                        data-slide="2"
+                    >
+
+                        <span class="slide-number">
+                            Elementos
+                        </span>
+
+                        <h2>
+                            Partes de una razón
+                        </h2>
 
                         <p>
 
-                            Comparar precios y cantidades.
+                            En una razón existen dos
+                            términos importantes:
 
                         </p>
+
+
+                        <div class="steps">
+
+
+                            <div class="step">
+
+                                <div class="step-number">
+                                    1
+                                </div>
+
+                                <h3>
+                                    Antecedente
+                                </h3>
+
+                                <p>
+
+                                    Es el primer número
+                                    de la razón.
+
+                                </p>
+
+                            </div>
+
+
+                            <div class="step">
+
+                                <div class="step-number">
+                                    2
+                                </div>
+
+                                <h3>
+                                    Consecuente
+                                </h3>
+
+                                <p>
+
+                                    Es el segundo número
+                                    de la razón.
+
+                                </p>
+
+                            </div>
+
+
+                        </div>
+
+
+                        <div class="info-box">
+
+                            <h3>
+                                📐 Ejemplo
+                            </h3>
+
+                            <p>
+
+                                En la razón
+                                <strong>8:12</strong>,
+
+                                <strong>8</strong> es el
+                                antecedente y
+                                <strong>12</strong> es el
+                                consecuente.
+
+                            </p>
+
+                        </div>
 
                     </div>
 
 
-                    <div class="card">
 
-                        <div class="card-icon">
-                            🗺️
-                        </div>
+                    <!-- DIAPOSITIVA 4 -->
 
-                        <h3>
-                            Mapas
-                        </h3>
+                    <div
+                        class="slide"
+                        data-slide="3"
+                    >
+
+                        <span class="slide-number">
+                            Simplificación
+                        </span>
+
+                        <h2>
+                            ¿Cómo simplificamos?
+                        </h2>
 
                         <p>
 
-                            Representar distancias reales.
+                            Para obtener la razón
+                            equivalente más simple,
+                            debemos dividir los dos
+                            términos por el
+                            <span class="highlight">
+                            mismo número</span>.
 
                         </p>
+
+
+                        <div class="steps">
+
+
+                            <div class="step">
+
+                                <div class="step-number">
+                                    1
+                                </div>
+
+                                <h3>
+                                    Busca un divisor común
+                                </h3>
+
+                                <p>
+
+                                    Encuentra un número que
+                                    divida exactamente a
+                                    ambos términos.
+
+                                </p>
+
+                            </div>
+
+
+                            <div class="step">
+
+                                <div class="step-number">
+                                    2
+                                </div>
+
+                                <h3>
+                                    Divide
+                                </h3>
+
+                                <p>
+
+                                    Divide el antecedente y
+                                    el consecuente por el
+                                    mismo número.
+
+                                </p>
+
+                            </div>
+
+
+                            <div class="step">
+
+                                <div class="step-number">
+                                    3
+                                </div>
+
+                                <h3>
+                                    Comprueba
+                                </h3>
+
+                                <p>
+
+                                    Si todavía tienen un
+                                    divisor común, continúa.
+
+                                </p>
+
+                            </div>
+
+                        </div>
 
                     </div>
 
 
-                    <div class="card">
 
-                        <div class="card-icon">
-                            🏪
+                    <!-- DIAPOSITIVA 5 -->
+
+                    <div
+                        class="slide"
+                        data-slide="4"
+                    >
+
+                        <span class="slide-number">
+                            Ejemplo
+                        </span>
+
+                        <h2>
+                            Simplifiquemos 8:12
+                        </h2>
+
+
+                        <div class="ratio-display">
+
+                            <div class="ratio-number">
+                                8
+                            </div>
+
+                            <div class="ratio-symbol">
+                                :
+                            </div>
+
+                            <div class="ratio-number">
+                                12
+                            </div>
+
                         </div>
 
-                        <h3>
-                            Negocios
-                        </h3>
 
-                        <p>
+                        <div class="info-box warning">
 
-                            Comparar productos y cantidades.
+                            <h3>
+                                🔎 Paso 1
+                            </h3>
 
-                        </p>
+                            <p>
+
+                                Un divisor común de
+                                8 y 12 es
+                                <strong>4</strong>.
+
+                            </p>
+
+                        </div>
+
+
+                        <div class="ratio-display">
+
+                            <div class="ratio-number">
+                                8 ÷ 4
+                            </div>
+
+                            <div class="ratio-symbol">
+                                :
+                            </div>
+
+                            <div class="ratio-number">
+                                12 ÷ 4
+                            </div>
+
+                        </div>
+
+
+                        <div class="ratio-display">
+
+                            <div class="ratio-number">
+                                2
+                            </div>
+
+                            <div class="ratio-symbol">
+                                :
+                            </div>
+
+                            <div class="ratio-number">
+                                3
+                            </div>
+
+                        </div>
+
+
+                        <div class="info-box success">
+
+                            <h3>
+                                🎯 Resultado
+                            </h3>
+
+                            <p>
+
+                                <strong>
+                                    8:12 = 2:3
+                                </strong>
+
+                                Esta es la razón equivalente
+                                más simple.
+
+                            </p>
+
+                        </div>
 
                     </div>
 
 
-                    <div class="card">
 
-                        <div class="card-icon">
-                            🧪
+                    <!-- DIAPOSITIVA 6 -->
+
+                    <div
+                        class="slide"
+                        data-slide="5"
+                    >
+
+                        <span class="slide-number">
+                            Regla
+                        </span>
+
+                        <h2>
+                            Regla para simplificar
+                        </h2>
+
+
+                        <div class="info-box">
+
+                            <h3>
+                                📚 Recuerda
+                            </h3>
+
+                            <p>
+
+                                Para simplificar una razón
+                                debemos dividir el
+                                <strong>antecedente y el
+                                consecuente por el mismo
+                                número</strong>.
+
+                            </p>
+
                         </div>
 
-                        <h3>
-                            Mezclas
-                        </h3>
 
-                        <p>
+                        <div class="steps">
 
-                            Establecer cantidades entre materiales.
 
-                        </p>
+                            <div class="step">
+
+                                <div class="step-number">
+                                    1
+                                </div>
+
+                                <h3>
+                                    Identificar
+                                </h3>
+
+                                <p>
+                                    Busca un divisor común.
+                                </p>
+
+                            </div>
+
+
+                            <div class="step">
+
+                                <div class="step-number">
+                                    2
+                                </div>
+
+                                <h3>
+                                    Dividir
+                                </h3>
+
+                                <p>
+                                    Divide ambos términos.
+                                </p>
+
+                            </div>
+
+
+                            <div class="step">
+
+                                <div class="step-number">
+                                    3
+                                </div>
+
+                                <h3>
+                                    Continuar
+                                </h3>
+
+                                <p>
+                                    Repite si todavía es posible.
+                                </p>
+
+                            </div>
+
+
+                            <div class="step">
+
+                                <div class="step-number">
+                                    4
+                                </div>
+
+                                <h3>
+                                    Resultado
+                                </h3>
+
+                                <p>
+                                    Obtén la razón más simple.
+                                </p>
+
+                            </div>
+
+                        </div>
 
                     </div>
 
 
-                </div>
 
-            </div>
+                    <!-- DIAPOSITIVA 7 -->
 
+                    <div
+                        class="slide"
+                        data-slide="6"
+                    >
 
-            <!-- =============================
-                 LECCIÓN 7
-            ============================== -->
-
-            <div
-                class="lesson-slide"
-                data-lesson="6"
-            >
-
-                <span class="lesson-number">
-                    7 · IMPORTANCIA
-                </span>
-
-
-                <h2>
-                    ¿Por qué es importante?
-                </h2>
-
-
-                <p>
-
-                    Aprender a simplificar razones facilita
-
-                    la comparación de cantidades y permite
-
-                    trabajar con números más pequeños.
-
-                </p>
-
-
-                <div class="cards">
-
-
-                    <div class="card">
-
-                        <div class="card-icon">
-                            🧠
-                        </div>
-
-                        <h3>
-                            Razonamiento
-                        </h3>
-
-                        <p>
-
-                            Ayuda a desarrollar habilidades
-
-                            para analizar y resolver problemas.
-
-                        </p>
-
-                    </div>
-
-
-                    <div class="card">
-
-                        <div class="card-icon">
-                            📈
-                        </div>
-
-                        <h3>
-                            Matemática
-                        </h3>
-
-                        <p>
-
-                            Es base para proporciones,
-
-                            porcentajes y escalas.
-
-                        </p>
-
-                    </div>
-
-
-                    <div class="card">
-
-                        <div class="card-icon">
-                            🌎
-                        </div>
-
-                        <h3>
+                        <span class="slide-number">
                             Vida cotidiana
-                        </h3>
+                        </span>
+
+                        <h2>
+                            ¿Dónde utilizamos razones?
+                        </h2>
 
                         <p>
 
-                            Ayuda a interpretar información numérica.
+                            Las razones aparecen en muchas
+                            situaciones de nuestra vida
+                            cotidiana.
 
                         </p>
+
+
+                        <div class="steps">
+
+
+                            <div class="step">
+
+                                <div class="step-number">
+                                    🍰
+                                </div>
+
+                                <h3>
+                                    Recetas
+                                </h3>
+
+                                <p>
+                                    Comparar cantidades
+                                    de ingredientes.
+                                </p>
+
+                            </div>
+
+
+                            <div class="step">
+
+                                <div class="step-number">
+                                    🛒
+                                </div>
+
+                                <h3>
+                                    Compras
+                                </h3>
+
+                                <p>
+                                    Comparar precios
+                                    y cantidades.
+                                </p>
+
+                            </div>
+
+
+                            <div class="step">
+
+                                <div class="step-number">
+                                    ⚽
+                                </div>
+
+                                <h3>
+                                    Deportes
+                                </h3>
+
+                                <p>
+                                    Comparar puntos,
+                                    goles o resultados.
+                                </p>
+
+                            </div>
+
+
+                            <div class="step">
+
+                                <div class="step-number">
+                                    🗺️
+                                </div>
+
+                                <h3>
+                                    Mapas
+                                </h3>
+
+                                <p>
+                                    Utilizar escalas y
+                                    distancias.
+                                </p>
+
+                            </div>
+
+                        </div>
 
                     </div>
 
 
+
+                    <!-- DIAPOSITIVA 8 -->
+
+                    <div
+                        class="slide"
+                        data-slide="7"
+                    >
+
+                        <span class="slide-number">
+                            Importancia
+                        </span>
+
+                        <h2>
+                            ¿Por qué es importante?
+                        </h2>
+
+                        <p>
+
+                            Aprender a simplificar razones
+                            nos ayuda a comparar cantidades
+                            de una manera más sencilla.
+
+                        </p>
+
+
+                        <div class="info-box success">
+
+                            <h3>
+                                🌟 Nos ayuda a:
+                            </h3>
+
+                            <p>
+
+                                • Comparar cantidades.<br>
+                                • Trabajar con números más pequeños.<br>
+                                • Comprender proporciones.<br>
+                                • Resolver problemas cotidianos.<br>
+                                • Interpretar información numérica.
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- DIAPOSITIVA 9 -->
+
+                    <div
+                        class="slide"
+                        data-slide="8"
+                    >
+
+                        <span class="slide-number">
+                            Antes del juego
+                        </span>
+
+                        <h2>
+                            ¡Ahora es tu turno!
+                        </h2>
+
+                        <p>
+
+                            Ya conocemos qué es una razón,
+                            cómo encontrar razones equivalentes
+                            y cómo simplificarlas.
+
+                        </p>
+
+
+                        <div class="ratio-display">
+
+                            <div class="ratio-number">
+                                8
+                            </div>
+
+                            <div class="ratio-symbol">
+                                :
+                            </div>
+
+                            <div class="ratio-number">
+                                12
+                            </div>
+
+                            <div class="ratio-symbol">
+                                =
+                            </div>
+
+                            <div class="ratio-number">
+                                2
+                            </div>
+
+                            <div class="ratio-symbol">
+                                :
+                            </div>
+
+                            <div class="ratio-number">
+                                3
+                            </div>
+
+                        </div>
+
+
+                        <div class="info-box success">
+
+                            <h3>
+                                🎮 Prepárate
+                            </h3>
+
+                            <p>
+
+                                Primero realizaremos una
+                                pequeña evaluación y después
+                                podrás jugar en
+                                <strong>Wordwall</strong>.
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- CONTROLES -->
+
+                <div>
+
+                    <div class="progress-container">
+
+                        <div class="progress-bar">
+
+                            <div
+                                id="progressFill"
+                                class="progress-fill"
+                            ></div>
+
+                        </div>
+
+                        <div
+                            id="progressText"
+                            class="progress-text"
+                        >
+                            Diapositiva 1 de 9
+                        </div>
+
+                    </div>
+
+
+                    <div class="lesson-controls">
+
+                        <button
+                            id="previousButton"
+                            class="btn btn-secondary"
+                            onclick="previousSlide()"
+                        >
+                            ← Anterior
+                        </button>
+
+
+                        <button
+                            id="nextButton"
+                            class="btn btn-primary"
+                            onclick="nextSlide()"
+                        >
+                            Siguiente →
+                        </button>
+
+                    </div>
+
                 </div>
 
             </div>
-
-
-            <!-- =============================
-                 NAVEGACIÓN LECCIÓN
-            ============================== -->
-
-            <div class="lesson-navigation">
-
-
-                <button
-                    id="lessonPrevious"
-                    class="btn btn-gray"
-                    onclick="previousLesson()"
-                >
-
-                    ← Anterior
-
-                </button>
-
-
-                <div
-                    id="lessonCounter"
-                    class="lesson-counter"
-                >
-
-                    1 / 7
-
-                </div>
-
-
-                <button
-                    id="lessonNext"
-                    class="btn btn-primary"
-                    onclick="nextLesson()"
-                >
-
-                    Siguiente →
-
-                </button>
-
-
-            </div>
-
 
         </div>
 
     </section>
 
 
-    <!-- =====================================================
-         PANTALLA DE EVALUACIÓN
-    ====================================================== -->
+
+    <!-- =========================================================
+         PANTALLA DE CUESTIONARIO
+    ========================================================== -->
 
     <section
         id="quizScreen"
         class="screen"
     >
 
-        <div class="quiz-wrapper">
+        <div class="container">
 
 
-            <div class="quiz-header">
+            <!-- ENCABEZADO -->
 
+            <div class="institution-header">
 
-                <div class="student-name-display">
+                <img
+                    src="https://i.postimg.cc/xdnrhSyH/logo-cecespiritudanto.png"
+                    alt="Logo de la escuela"
+                    class="institution-logo"
+                >
 
-                    👤 Estudiante:
-                    <span id="quizStudentName">
-                        -
+                <div class="institution-info">
+
+                    <strong>
+                        Razón Equivalente Más Simple
+                    </strong>
+
+                    <span>
+                        Gerardo Díaz · Daniel Gómez · Elyzabeth Menchu · Luis Torres · Axel Mejía
                     </span>
 
                 </div>
 
-
-                <div class="score-display">
-
-                    🏆 Puntos:
-                    <span id="currentScore">
-                        0
-                    </span>
-
-                </div>
-
-
             </div>
 
 
-            <div class="quiz-card">
+            <div class="card quiz-card">
 
 
-                <div
-                    id="questionNumber"
-                    class="question-number"
-                >
-                    Pregunta 1
+                <div class="quiz-header">
+
+                    <div
+                        id="questionCounter"
+                        class="question-counter"
+                    >
+                        Pregunta 1 de 10
+                    </div>
+
+
+                    <div
+                        id="scoreDisplay"
+                        class="score-display"
+                    >
+                        Puntos: 0
+                    </div>
+
                 </div>
 
 
                 <div
-                    id="questionText"
-                    class="question"
-                >
-                </div>
+                    id="questionContainer"
+                ></div>
 
 
                 <div
-                    id="questionArea"
-                >
+                    id="feedback"
+                    class="feedback"
+                ></div>
+
+
+                <div class="button-row">
+
+                    <button
+                        id="checkButton"
+                        class="btn btn-primary"
+                        onclick="checkAnswer()"
+                    >
+                        ✓ Comprobar respuesta
+                    </button>
+
+
+                    <button
+                        id="nextQuestionButton"
+                        class="btn btn-success"
+                        onclick="nextQuestion()"
+                        style="display:none;"
+                    >
+                        Siguiente →
+                    </button>
+
                 </div>
-
-
-                <div
-                    id="quizFeedback"
-                    class="quiz-feedback"
-                >
-                </div>
-
 
             </div>
-
 
         </div>
 
     </section>
 
 
-    <!-- =====================================================
-         PANTALLA DE RESULTADO
-    ====================================================== -->
+
+    <!-- =========================================================
+         PANTALLA DE RESULTADOS
+    ========================================================== -->
 
     <section
         id="resultScreen"
         class="screen"
     >
 
-        <div class="result-card">
+        <div class="container">
 
 
-            <div
-                id="resultEmoji"
-                class="result-emoji"
-            >
-                🏆
+            <!-- ENCABEZADO -->
+
+            <div class="institution-header">
+
+                <img
+                    src="https://i.postimg.cc/xdnrhSyH/logo-cecespiritudanto.png"
+                    alt="Logo de la escuela"
+                    class="institution-logo"
+                >
+
+                <div class="institution-info">
+
+                    <strong>
+                        Razón Equivalente Más Simple
+                    </strong>
+
+                    <span>
+                        Gerardo Díaz · Daniel Gómez · Elyzabeth Menchu · Luis Torres · Axel Mejía
+                    </span>
+
+                </div>
+
             </div>
 
 
-            <h1>
-                ¡Evaluación terminada!
-            </h1>
+            <div class="card result-card">
 
 
-            <div
-                id="studentResult"
-                class="student-result"
-            >
-            </div>
+                <div class="result-icon">
+                    🏆
+                </div>
 
 
-            <div class="score-circle">
+                <div class="celebration">
+                    🎉 ⭐ 🎉
+                </div>
+
+
+                <h1>
+                    ¡Excelente trabajo!
+                </h1>
+
+
+                <p
+                    id="resultMessage"
+                    class="result-message"
+                >
+                    Has completado la actividad.
+                </p>
 
 
                 <div
-                    id="scorePercentage"
-                    class="score-percentage"
-                >
-                    0%
-                </div>
-
-
-                <div class="score-label">
-                    CALIFICACIÓN
-                </div>
-
-
-            </div>
-
-
-            <div class="result-stats">
-
-
-                <div class="stat">
-
-                    <span
-                        id="correctAnswers"
-                        class="stat-number"
-                    >
-                        0
-                    </span>
-
-                    <span class="stat-label">
-                        Correctas
-                    </span>
-
-                </div>
-
-
-                <div class="stat">
-
-                    <span
-                        id="incorrectAnswers"
-                        class="stat-number"
-                    >
-                        0
-                    </span>
-
-                    <span class="stat-label">
-                        Incorrectas
-                    </span>
-
-                </div>
-
-
-                <div class="stat">
-
-                    <span
-                        id="totalPoints"
-                        class="stat-number"
-                    >
-                        0
-                    </span>
-
-                    <span class="stat-label">
-                        Puntos
-                    </span>
-
-                </div>
-
-
-            </div>
-
-
-            <div
-                id="resultMessage"
-                class="result-message"
-            >
-            </div>
-
-
-            <div class="result-buttons">
-
-
-                <a
-                    class="btn btn-purple"
-                    href="https://wordwall.net/resource/94585102/razones-equivalentes-simplificar-y-amplificar-sextos-b%C3%A1sicos"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    id="scoreCircle"
+                    class="score-circle"
                 >
 
-                    🎮 Jugar en Wordwall
+                    <div
+                        id="scoreValue"
+                        class="score-value"
+                    >
+                        0%
+                    </div>
 
-                </a>
+                </div>
 
 
-                <button
-                    class="btn btn-primary"
-                    onclick="restartActivity()"
-                >
+                <div class="result-details">
 
-                    🏠 Volver al inicio
 
-                </button>
+                    <div class="result-stat">
 
+                        <strong id="correctAnswers">
+                            0
+                        </strong>
+
+                        <span>
+                            Respuestas correctas
+                        </span>
+
+                    </div>
+
+
+                    <div class="result-stat">
+
+                        <strong id="wrongAnswers">
+                            0
+                        </strong>
+
+                        <span>
+                            Respuestas incorrectas
+                        </span>
+
+                    </div>
+
+
+                    <div class="result-stat">
+
+                        <strong id="totalPoints">
+                            0
+                        </strong>
+
+                        <span>
+                            Puntos obtenidos
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- GRUPO -->
+
+                <div class="team-box">
+
+                    <h3>
+                        👥 Grupo expositor
+                    </h3>
+
+
+                    <div class="team">
+
+                        <span class="member">
+                            Gerardo Díaz
+                        </span>
+
+                        <span class="member">
+                            Daniel Gómez
+                        </span>
+
+                        <span class="member">
+                            Elyzabeth Menchu
+                        </span>
+
+                        <span class="member">
+                            Luis Torres
+                        </span>
+
+                        <span class="member">
+                            Axel Mejía
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="button-row">
+
+
+                    <button
+                        class="btn btn-wordwall"
+                        onclick="openWordwall()"
+                    >
+                        🎮 Jugar en Wordwall
+                    </button>
+
+
+                    <button
+                        class="btn btn-primary"
+                        onclick="restartActivity()"
+                    >
+                        🔄 Volver a comenzar
+                    </button>
+ 		
+
+                </div>
+
+
+                <div class="footer">
+
+                    ¡Gracias por participar!
+
+                </div>
 
             </div>
-
 
         </div>
 
     </section>
 
 
-</div>
+
+    <!-- =========================================================
+         JAVASCRIPT
+    ========================================================== -->
+
+    <script>
 
 
-<script>
+        /* =========================================================
+           VARIABLES GENERALES
+        ========================================================= */
 
-    /* =========================================================
-       VARIABLES GENERALES
-    ========================================================= */
+        let currentSlide = 0;
 
+        let currentQuestion = 0;
 
-    let studentName = "";
+        let score = 0;
 
+        let correctCount = 0;
 
-    let lessonIndex = 0;
+        let wrongCount = 0;
 
+        let questionAnswered = false;
 
-    const totalLessons = 7;
-
-
-    let quizQuestions = [];
-
-
-    let currentQuestion = 0;
+        let studentName = "";
 
 
-    let score = 0;
+        const totalSlides = 9;
 
 
-    let correctCount = 0;
+        /* =========================================================
+           PREGUNTAS
+        ========================================================== */
+
+        const quizQuestions = [
+
+            {
+                type: "text",
+
+                question:
+                    "Simplifica la razón 8:12.",
+
+                answer:
+                    "2:3",
+
+                points: 10,
+
+                explanation:
+                    "8 y 12 se pueden dividir entre 4. 8 ÷ 4 = 2 y 12 ÷ 4 = 3."
+            },
 
 
-    let incorrectCount = 0;
+            {
+                type: "choice",
+
+                question:
+                    "¿Cuál de estas razones es equivalente a 3:4?",
+
+                options: [
+                    "5:6",
+                    "6:8",
+                    "9:10",
+                    "12:20"
+                ],
+
+                answer:
+                    "6:8",
+
+                points: 10,
+
+                explanation:
+                    "3:4 × 2 = 6:8."
+            },
 
 
-    let answered = false;
+            {
+                type: "text",
+
+                question:
+                    "Simplifica la razón 15:20.",
+
+                answer:
+                    "3:4",
+
+                points: 10,
+
+                explanation:
+                    "15 y 20 se pueden dividir entre 5. El resultado es 3:4."
+            },
 
 
-    /* =========================================================
-       ELEMENTOS
-    ========================================================= */
+            {
+                type: "choice",
+
+                question:
+                    "¿Cuál es un divisor común de 8 y 12?",
+
+                options: [
+                    "3",
+                    "4",
+                    "5",
+                    "7"
+                ],
+
+                answer:
+                    "4",
+
+                points: 15,
+
+                explanation:
+                    "4 divide exactamente a 8 y también a 12."
+            },
 
 
-    const welcomeScreen =
-        document.getElementById(
-            "welcomeScreen"
-        );
+            {
+                type: "text",
+
+                question:
+                    "Simplifica la razón 10:15.",
+
+                answer:
+                    "2:3",
+
+                points: 10,
+
+                explanation:
+                    "10 y 15 se pueden dividir entre 5."
+            },
 
 
-    const lessonScreen =
-        document.getElementById(
-            "lessonScreen"
-        );
+            {
+                type: "text",
+
+                question:
+                    "Simplifica la razón 12:18.",
+
+                answer:
+                    "2:3",
+
+                points: 15,
+
+                explanation:
+                    "12 ÷ 6 = 2 y 18 ÷ 6 = 3."
+            },
 
 
-    const quizScreen =
-        document.getElementById(
-            "quizScreen"
-        );
+            {
+                type: "choice",
+
+                question:
+                    "¿Cuál es la razón equivalente más simple de 20:30?",
+
+                options: [
+                    "4:6",
+                    "5:7",
+                    "2:3",
+                    "10:20"
+                ],
+
+                answer:
+                    "2:3",
+
+                points: 10,
+
+                explanation:
+                    "20 y 30 se pueden dividir entre 10."
+            },
 
 
-    const resultScreen =
-        document.getElementById(
-            "resultScreen"
-        );
+            {
+                type: "choice",
+
+                question:
+                    "¿Cuál es la regla principal para simplificar una razón?",
+
+                options: [
+                    "Sumar los dos números",
+                    "Restar los dos números",
+                    "Dividir ambos términos por el mismo número",
+                    "Multiplicar solamente el primer número"
+                ],
+
+                answer:
+                    "Dividir ambos términos por el mismo número",
+
+                points: 15,
+
+                explanation:
+                    "Para mantener la equivalencia debemos dividir ambos términos por el mismo número."
+            },
 
 
-    const topProgressBar =
-        document.getElementById(
-            "topProgressBar"
-        );
+            {
+                type: "text",
+
+                question:
+                    "Simplifica la razón 18:24.",
+
+                answer:
+                    "3:4",
+
+                points: 10,
+
+                explanation:
+                    "18 y 24 se pueden dividir entre 6."
+            },
 
 
-    /* =========================================================
-       CAMBIAR PANTALLA
-    ========================================================= */
+            {
+                type: "choice",
+
+                question:
+                    "¿Cuál es equivalente a 2:5?",
+
+                options: [
+                    "3:10",
+                    "4:10",
+                    "5:8",
+                    "6:20"
+                ],
+
+                answer:
+                    "4:10",
+
+                points: 15,
+
+                explanation:
+                    "2:5 × 2 = 4:10."
+            }
+
+        ];
 
 
-    function showScreen(screen) {
+        /* =========================================================
+           CAMBIAR DE PANTALLA
+        ========================================================== */
+
+        function showScreen(screenId) {
+
+            document
+                .querySelectorAll(".screen")
+                .forEach(screen => {
+
+                    screen.classList.remove("active");
+
+                });
 
 
-        document
-            .querySelectorAll(".screen")
-            .forEach(
-                s => s.classList.remove("active")
-            );
+            document
+                .getElementById(screenId)
+                .classList.add("active");
 
 
-        screen.classList.add("active");
-
-
-        updateMainProgress();
-
-    }
-
-
-    /* =========================================================
-       PANTALLA INICIAL
-    ========================================================= */
-
-
-    function startLearning() {
-
-
-        const input =
-            document.getElementById(
-                "studentName"
-            );
-
-
-        const error =
-            document.getElementById(
-                "nameError"
-            );
-
-
-        const name =
-            input.value.trim();
-
-
-        if (!name) {
-
-
-            error.textContent =
-                "⚠️ Escribe tu nombre para comenzar.";
-
-
-            input.focus();
-
-
-            return;
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
 
         }
 
 
-        if (name.length < 2) {
+        /* =========================================================
+           INICIAR PRESENTACIÓN
+        ========================================================== */
+
+        function startPresentation() {
+
+            const input =
+                document.getElementById("studentName");
+
+            studentName =
+                input.value.trim();
 
 
-            error.textContent =
-                "⚠️ Escribe un nombre válido.";
+            if (studentName === "") {
+
+                studentName = "Estudiante";
+
+            }
 
 
-            input.focus();
+            currentSlide = 0;
 
+            updateSlide();
 
-            return;
+            showScreen("lessonScreen");
 
         }
 
 
-        studentName = name;
+        /* =========================================================
+           ACTUALIZAR DIAPOSITIVA
+        ========================================================== */
+
+        function updateSlide() {
+
+            const slides =
+                document.querySelectorAll(".slide");
 
 
-        error.textContent = "";
+            slides.forEach(
+                (slide, index) => {
 
+                    slide.classList.toggle(
+                        "active",
+                        index === currentSlide
+                    );
 
-        lessonIndex = 0;
-
-
-        showLesson();
-
-
-        showScreen(
-            lessonScreen
-        );
-
-    }
-
-
-    /* =========================================================
-       LECCIONES
-    ========================================================= */
-
-
-    function showLesson() {
-
-
-        const lessons =
-            document.querySelectorAll(
-                ".lesson-slide"
+                }
             );
 
 
-        lessons.forEach(
-            lesson =>
-                lesson.classList.remove("active")
-        );
+            const progress =
+                ((currentSlide + 1) / totalSlides) * 100;
 
 
-        lessons[
-            lessonIndex
-        ].classList.add("active");
+            document
+                .getElementById("progressFill")
+                .style.width =
+                progress + "%";
 
 
-        document.getElementById(
-            "lessonCounter"
-        ).textContent =
-
-            `${lessonIndex + 1} / ${totalLessons}`;
-
-
-        const previousButton =
-            document.getElementById(
-                "lessonPrevious"
-            );
+            document
+                .getElementById("progressText")
+                .textContent =
+                `Diapositiva ${currentSlide + 1} de ${totalSlides}`;
 
 
-        const nextButton =
-            document.getElementById(
-                "lessonNext"
-            );
+            const previousButton =
+                document.getElementById(
+                    "previousButton"
+                );
 
 
-        previousButton.disabled =
-            lessonIndex === 0;
+            const nextButton =
+                document.getElementById(
+                    "nextButton"
+                );
 
 
-        if (
-            lessonIndex ===
-            totalLessons - 1
-        ) {
+            previousButton.disabled =
+                currentSlide === 0;
 
 
-            nextButton.textContent =
-                "🧠 Ir a la evaluación";
+            if (currentSlide === totalSlides - 1) {
 
+                nextButton.textContent =
+                    "🎯 Comenzar evaluación";
 
-        } else {
+            } else {
 
+                nextButton.textContent =
+                    "Siguiente →";
 
-            nextButton.textContent =
-                "Siguiente →";
+            }
 
         }
 
 
-        updateMainProgress();
+        /* =========================================================
+           SIGUIENTE DIAPOSITIVA
+        ========================================================== */
 
-    }
+        function nextSlide() {
 
+            if (
+                currentSlide <
+                totalSlides - 1
+            ) {
 
-    /* =========================================================
-       SIGUIENTE LECCIÓN
-    ========================================================= */
+                currentSlide++;
 
+                updateSlide();
 
-    function nextLesson() {
+            } else {
 
+                startQuiz();
 
-        if (
-            lessonIndex <
-            totalLessons - 1
-        ) {
-
-
-            lessonIndex++;
-
-
-            showLesson();
-
-
-        } else {
-
-
-            startQuiz();
-
+            }
 
         }
 
-    }
 
+        /* =========================================================
+           DIAPOSITIVA ANTERIOR
+        ========================================================== */
 
-    /* =========================================================
-       LECCIÓN ANTERIOR
-    ========================================================= */
+        function previousSlide() {
 
+            if (currentSlide > 0) {
 
-    function previousLesson() {
+                currentSlide--;
 
+                updateSlide();
 
-        if (lessonIndex > 0) {
-
-
-            lessonIndex--;
-
-
-            showLesson();
+            }
 
         }
 
-    }
+
+        /* =========================================================
+           INICIAR CUESTIONARIO
+        ========================================================== */
+
+        function startQuiz() {
+
+            currentQuestion = 0;
+
+            score = 0;
+
+            correctCount = 0;
+
+            wrongCount = 0;
+
+            questionAnswered = false;
 
 
-    /* =========================================================
-       PROGRESO GENERAL
-    ========================================================= */
+            showScreen("quizScreen");
+
+            loadQuestion();
+
+        }
 
 
-    function updateMainProgress() {
+        /* =========================================================
+           CARGAR PREGUNTA
+        ========================================================== */
+
+        function loadQuestion() {
+
+            const question =
+                quizQuestions[currentQuestion];
 
 
-        let percentage = 0;
+            questionAnswered = false;
 
 
-        if (
-            welcomeScreen.classList.contains(
-                "active"
-            )
-        ) {
-
-
-            percentage = 0;
-
-
-        } else if (
-            lessonScreen.classList.contains(
-                "active"
-            )
-        ) {
-
-
-            percentage =
-                (
-                    (lessonIndex + 1)
-                    /
-                    (totalLessons + 2)
-                ) * 100;
-
-
-        } else if (
-            quizScreen.classList.contains(
-                "active"
-            )
-        ) {
-
-
-            percentage =
-                (
-                    totalLessons + 1
-                    +
-                    currentQuestion
-                    /
-                    quizQuestions.length
+            document
+                .getElementById(
+                    "questionCounter"
                 )
-                /
-                (totalLessons + 2)
-                * 100;
+                .textContent =
+                `Pregunta ${currentQuestion + 1} de ${quizQuestions.length}`;
 
 
-        } else {
+            document
+                .getElementById(
+                    "scoreDisplay"
+                )
+                .textContent =
+                `Puntos: ${score}`;
 
 
-            percentage = 100;
+            const container =
+                document.getElementById(
+                    "questionContainer"
+                );
+
+
+            let html = `
+
+                <div class="question">
+
+                    ${question.question}
+
+                </div>
+
+            `;
+
+
+            if (question.type === "text") {
+
+                html += `
+
+                    <input
+
+                        type="text"
+
+                        id="answerInput"
+
+                        class="answer-input"
+
+                        placeholder="Escribe tu respuesta, ejemplo: 2:3"
+
+                        autocomplete="off"
+
+                    >
+
+                `;
+
+            }
+
+
+            if (question.type === "choice") {
+
+                html += `
+                    <div class="options">
+                `;
+
+
+                question.options.forEach(
+                    (option, index) => {
+
+                        html += `
+
+                            <button
+
+                                class="option"
+
+                                onclick="selectOption(
+                                    this,
+                                    '${escapeQuotes(option)}'
+                                )"
+
+                            >
+
+                                ${option}
+
+                            </button>
+
+                        `;
+
+                    }
+                );
+
+
+                html += `
+                    </div>
+                `;
+
+            }
+
+
+            container.innerHTML = html;
+
+
+            document
+                .getElementById(
+                    "feedback"
+                )
+                .className =
+                "feedback";
+
+
+            document
+                .getElementById(
+                    "feedback"
+                )
+                .innerHTML = "";
+
+
+            document
+                .getElementById(
+                    "checkButton"
+                )
+                .style.display =
+                "inline-flex";
+
+
+            document
+                .getElementById(
+                    "nextQuestionButton"
+                )
+                .style.display =
+                "none";
+
+
+            const input =
+                document.getElementById(
+                    "answerInput"
+                );
+
+
+            if (input) {
+
+                input.focus();
+
+
+                input.addEventListener(
+                    "keydown",
+                    function(event) {
+
+                        if (
+                            event.key === "Enter"
+                        ) {
+
+                            checkAnswer();
+
+                        }
+
+                    }
+                );
+
+            }
 
         }
 
 
-        topProgressBar.style.width =
-            Math.min(
-                percentage,
-                100
-            ) + "%";
+        /* =========================================================
+           SELECCIONAR OPCIÓN
+        ========================================================== */
 
-    }
+        let selectedAnswer = "";
 
 
-    /* =========================================================
-       ANIMACIÓN DE SIMPLIFICACIÓN
-    ========================================================= */
-
-
-    function runSimplificationAnimation() {
-
-
-        const division =
-            document.getElementById(
-                "divisionText"
-            );
-
-
-        const resultOne =
-            document.getElementById(
-                "resultOne"
-            );
-
-
-        const resultTwo =
-            document.getElementById(
-                "resultTwo"
-            );
-
-
-        const message =
-            document.getElementById(
-                "animationMessage"
-            );
-
-
-        division.classList.remove(
-            "show"
-        );
-
-
-        resultOne.classList.remove(
-            "show"
-        );
-
-
-        resultTwo.classList.remove(
-            "show"
-        );
-
-
-        void division.offsetWidth;
-
-
-        setTimeout(
-            () => {
-
-                division.classList.add(
-                    "show"
-                );
-
-            },
-            400
-        );
-
-
-        setTimeout(
-            () => {
-
-                resultOne.classList.add(
-                    "show"
-                );
-
-                resultTwo.classList.add(
-                    "show"
-                );
-
-            },
-            1100
-        );
-
-
-        setTimeout(
-            () => {
-
-                message.innerHTML =
-                    "🎉 ¡Listo! " +
-                    "<strong>8 : 12 = 2 : 3</strong>. " +
-                    "Dividimos ambos términos entre 4.";
-
-            },
-            1800
-        );
-
-    }
-
-
-    /* =========================================================
-       PREGUNTAS
-    ========================================================= */
-
-
-    const questionBank = [
-
-
-        /* -----------------------------------------
-           PREGUNTA 1
-        ----------------------------------------- */
-
-        {
-
-            type: "choice",
-
-            question:
-                "¿Cuál es la razón equivalente más simple de 8 : 12?",
-
-            options: [
-                "2 : 3",
-                "4 : 6",
-                "3 : 4",
-                "1 : 2"
-            ],
-
-            answer: "2 : 3",
-
-            points: 10,
-
-            explanation:
-                "8 y 12 se pueden dividir entre 4. " +
-                "8 ÷ 4 = 2 y 12 ÷ 4 = 3."
-
-        },
-
-
-        /* -----------------------------------------
-           PREGUNTA 2
-        ----------------------------------------- */
-
-        {
-
-            type: "choice",
-
-            question:
-                "En la razón 5 : 8, ¿cuál es el antecedente?",
-
-            options: [
-                "5",
-                "8",
-                "13",
-                "3"
-            ],
-
-            answer: "5",
-
-            points: 10,
-
-            explanation:
-                "El antecedente es el primer término de la razón."
-
-        },
-
-
-        /* -----------------------------------------
-           PREGUNTA 3
-        ----------------------------------------- */
-
-        {
-
-            type: "choice",
-
-            question:
-                "En la razón 7 : 9, ¿cuál es el consecuente?",
-
-            options: [
-                "7",
-                "9",
-                "16",
-                "2"
-            ],
-
-            answer: "9",
-
-            points: 10,
-
-            explanation:
-                "El consecuente es el segundo término de la razón."
-
-        },
-
-
-        /* -----------------------------------------
-           PREGUNTA 4
-        ----------------------------------------- */
-
-        {
-
-            type: "input",
-
-            question:
-                "Escribe la razón equivalente más simple de 15 : 20.",
-
-            answer: "3:4",
-
-            alternatives: [
-                "3 : 4",
-                "3/4"
-            ],
-
-            points: 15,
-
-            explanation:
-                "15 y 20 se dividen entre 5: " +
-                "15 ÷ 5 = 3 y 20 ÷ 5 = 4."
-
-        },
-
-
-        /* -----------------------------------------
-           PREGUNTA 5
-        ----------------------------------------- */
-
-        {
-
-            type: "choice",
-
-            question:
-                "¿Qué debemos hacer para simplificar una razón?",
-
-            options: [
-                "Dividir ambos términos entre el mismo número",
-                "Sumar los dos términos",
-                "Multiplicar solamente el primer término",
-                "Restar los dos términos"
-            ],
-
-            answer:
-                "Dividir ambos términos entre el mismo número",
-
-            points: 10,
-
-            explanation:
-                "Los dos términos deben dividirse entre el mismo divisor."
-
-        },
-
-
-        /* -----------------------------------------
-           PREGUNTA 6
-        ----------------------------------------- */
-
-        {
-
-            type: "input",
-
-            question:
-                "Escribe la razón equivalente más simple de 18 : 24.",
-
-            answer: "3:4",
-
-            alternatives: [
-                "3 : 4",
-                "3/4"
-            ],
-
-            points: 15,
-
-            explanation:
-                "18 y 24 se dividen entre 6: " +
-                "18 ÷ 6 = 3 y 24 ÷ 6 = 4."
-
-        },
-
-
-        /* -----------------------------------------
-           PREGUNTA 7
-        ----------------------------------------- */
-
-        {
-
-            type: "choice",
-
-            question:
-                "¿Cuál de estas razones es equivalente a 2 : 3?",
-
-            options: [
-                "4 : 6",
-                "3 : 5",
-                "6 : 8",
-                "5 : 7"
-            ],
-
-            answer:
-                "4 : 6",
-
-            points: 10,
-
-            explanation:
-                "2 : 3 multiplicado por 2 produce 4 : 6."
-
-        },
-
-
-        /* -----------------------------------------
-           PREGUNTA 8
-        ----------------------------------------- */
-
-        {
-
-            type: "input",
-
-            question:
-                "Escribe la razón equivalente más simple de 20 : 30.",
-
-            answer: "2:3",
-
-            alternatives: [
-                "2 : 3",
-                "2/3"
-            ],
-
-            points: 15,
-
-            explanation:
-                "20 y 30 se dividen entre 10."
-
-        },
-
-
-        /* -----------------------------------------
-           PREGUNTA 9
-        ----------------------------------------- */
-
-        {
-
-            type: "choice",
-
-            question:
-                "¿En cuál situación podemos utilizar razones?",
-
-            options: [
-                "En recetas y mezclas",
-                "Solamente en deportes",
-                "Solamente en mapas",
-                "En ninguna situación cotidiana"
-            ],
-
-            answer:
-                "En recetas y mezclas",
-
-            points: 10,
-
-            explanation:
-                "Las razones aparecen en recetas, mezclas, " +
-                "compras, deportes, mapas y muchas situaciones más."
-
-        },
-
-
-        /* -----------------------------------------
-           PREGUNTA 10
-        ----------------------------------------- */
-
-        {
-
-            type: "choice",
-
-            question:
-                "¿Cuándo sabemos que una razón ya está en su forma más simple?",
-
-            options: [
-                "Cuando ambos términos ya no tienen un divisor común mayor que 1",
-                "Cuando ambos términos son pares",
-                "Cuando los términos son diferentes",
-                "Cuando el antecedente es mayor"
-            ],
-
-            answer:
-                "Cuando ambos términos ya no tienen un divisor común mayor que 1",
-
-            points: 15,
-
-            explanation:
-                "Una razón está simplificada cuando no podemos dividir " +
-                "ambos términos por otro número común mayor que 1."
-
-        }
-
-    ];
-
-
-    /* =========================================================
-       MEZCLAR PREGUNTAS
-    ========================================================= */
-
-
-    function shuffleArray(array) {
-
-
-        const copy =
-            [...array];
-
-
-        for (
-            let i = copy.length - 1;
-            i > 0;
-            i--
+        function selectOption(
+            element,
+            answer
         ) {
 
-
-            const j =
-                Math.floor(
-                    Math.random()
-                    *
-                    (i + 1)
-                );
+            if (questionAnswered) {
+                return;
+            }
 
 
-            [
-                copy[i],
-                copy[j]
-            ] =
-            [
-                copy[j],
-                copy[i]
-            ];
+            document
+                .querySelectorAll(".option")
+                .forEach(option => {
+
+                    option.classList.remove(
+                        "selected"
+                    );
+
+                });
+
+
+            element.classList.add(
+                "selected"
+            );
+
+
+            selectedAnswer = answer;
 
         }
 
 
-        return copy;
+        /* =========================================================
+           COMPROBAR RESPUESTA
+        ========================================================== */
 
-    }
+        function checkAnswer() {
 
+            if (questionAnswered) {
+                return;
+            }
 
-    /* =========================================================
-       INICIAR EVALUACIÓN
-    ========================================================= */
 
+            const question =
+                quizQuestions[currentQuestion];
 
-    function startQuiz() {
 
+            let userAnswer = "";
 
-        quizQuestions =
-            shuffleArray(
-                questionBank
-            );
 
+            if (question.type === "text") {
 
-        currentQuestion = 0;
-
-        score = 0;
-
-        correctCount = 0;
-
-        incorrectCount = 0;
-
-        answered = false;
-
-
-        document.getElementById(
-            "quizStudentName"
-        ).textContent =
-            studentName;
-
-
-        document.getElementById(
-            "currentScore"
-        ).textContent =
-            score;
-
-
-        showScreen(
-            quizScreen
-        );
-
-
-        showQuestion();
-
-    }
-
-
-    /* =========================================================
-       MOSTRAR PREGUNTA
-    ========================================================= */
-
-
-    function showQuestion() {
-
-
-        answered = false;
-
-
-        const question =
-            quizQuestions[
-                currentQuestion
-            ];
-
-
-        document.getElementById(
-            "questionNumber"
-        ).textContent =
-
-            `Pregunta ${currentQuestion + 1} de ${quizQuestions.length}`;
-
-
-        document.getElementById(
-            "questionText"
-        ).textContent =
-            question.question;
-
-
-        document.getElementById(
-            "quizFeedback"
-        ).textContent = "";
-
-
-        const area =
-            document.getElementById(
-                "questionArea"
-            );
-
-
-        area.innerHTML = "";
-
-
-        if (
-            question.type ===
-            "choice"
-        ) {
-
-
-            createChoiceQuestion(
-                question,
-                area
-            );
-
-
-        } else {
-
-
-            createInputQuestion(
-                question,
-                area
-            );
-
-        }
-
-
-        updateMainProgress();
-
-    }
-
-
-    /* =========================================================
-       CREAR PREGUNTA DE OPCIONES
-    ========================================================= */
-
-
-    function createChoiceQuestion(
-        question,
-        area
-    ) {
-
-
-        const options =
-            [...question.options];
-
-
-        const shuffledOptions =
-            shuffleArray(
-                options
-            );
-
-
-        const container =
-            document.createElement(
-                "div"
-            );
-
-
-        container.className =
-            "options";
-
-
-        shuffledOptions.forEach(
-            option => {
-
-
-                const button =
-                    document.createElement(
-                        "button"
+                const input =
+                    document.getElementById(
+                        "answerInput"
                     );
 
 
-                button.className =
-                    "option";
+                userAnswer =
+                    input.value.trim();
 
 
-                button.textContent =
-                    option;
+                if (userAnswer === "") {
+
+                    alert(
+                        "Escribe una respuesta antes de continuar."
+                    );
+
+                    return;
+
+                }
+
+            } else {
+
+                userAnswer =
+                    selectedAnswer;
 
 
-                button.onclick =
-                    () =>
-                        answerChoice(
-                            button,
-                            option,
-                            question
-                        );
+                if (userAnswer === "") {
+
+                    alert(
+                        "Selecciona una respuesta."
+                    );
+
+                    return;
+
+                }
+
+            }
 
 
-                container.appendChild(
-                    button
+            questionAnswered = true;
+
+
+            const isCorrect =
+                normalizeAnswer(userAnswer) ===
+                normalizeAnswer(question.answer);
+
+
+            const feedback =
+                document.getElementById(
+                    "feedback"
                 );
+
+
+            if (isCorrect) {
+
+                score += question.points;
+
+                correctCount++;
+
+
+                feedback.className =
+                    "feedback show correct";
+
+
+                feedback.innerHTML = `
+
+                    ✅ <strong>¡Correcto!</strong>
+
+                    <br>
+
+                    ${question.explanation}
+
+                    <br><br>
+
+                    <strong>
+                        +${question.points} puntos
+                    </strong>
+
+                `;
+
+
+                playCorrectSound();
+
+            } else {
+
+                wrongCount++;
+
+
+                feedback.className =
+                    "feedback show incorrect";
+
+
+                feedback.innerHTML = `
+
+                    ❌ <strong>No es correcto.</strong>
+
+                    <br>
+
+                    La respuesta correcta es:
+
+                    <strong>
+                        ${question.answer}
+                    </strong>
+
+                    <br><br>
+
+                    ${question.explanation}
+
+                `;
+
+
+                playIncorrectSound();
+
+            }
+
+
+            document
+                .getElementById(
+                    "scoreDisplay"
+                )
+                .textContent =
+                `Puntos: ${score}`;
+
+
+            if (question.type === "choice") {
+
+                document
+                    .querySelectorAll(".option")
+                    .forEach(option => {
+
+                        const value =
+                            option.textContent.trim();
+
+
+                        if (
+                            normalizeAnswer(value) ===
+                            normalizeAnswer(question.answer)
+                        ) {
+
+                            option.classList.add(
+                                "correct"
+                            );
+
+                        }
+
+
+                        if (
+                            option.classList.contains(
+                                "selected"
+                            ) &&
+                            !isCorrect
+                        ) {
+
+                            option.classList.add(
+                                "incorrect"
+                            );
+
+                        }
+
+                    });
+
+            }
+
+
+            document
+                .getElementById(
+                    "checkButton"
+                )
+                .style.display =
+                "none";
+
+
+            document
+                .getElementById(
+                    "nextQuestionButton"
+                )
+                .style.display =
+                "inline-flex";
+
+        }
+
+
+        /* =========================================================
+           SIGUIENTE PREGUNTA
+        ========================================================== */
+
+        function nextQuestion() {
+
+            if (
+                currentQuestion <
+                quizQuestions.length - 1
+            ) {
+
+                currentQuestion++;
+
+                selectedAnswer = "";
+
+                loadQuestion();
+
+            } else {
+
+                showResults();
+
+            }
+
+        }
+
+
+        /* =========================================================
+           NORMALIZAR RESPUESTAS
+        ========================================================== */
+
+        function normalizeAnswer(answer) {
+
+            return answer
+                .toString()
+                .trim()
+                .toLowerCase()
+                .replace(/\s+/g, "")
+                .replace(/\//g, ":");
+
+        }
+
+
+        /* =========================================================
+           ESCAPAR COMILLAS
+        ========================================================== */
+
+        function escapeQuotes(text) {
+
+            return text
+                .replace(/\\/g, "\\\\")
+                .replace(/'/g, "\\'");
+
+        }
+
+
+        /* =========================================================
+           MOSTRAR RESULTADOS
+        ========================================================== */
+
+        function showResults() {
+
+            showScreen("resultScreen");
+
+
+            const maxPoints =
+                quizQuestions.reduce(
+                    (total, question) =>
+                        total + question.points,
+                    0
+                );
+
+
+            const percentage =
+                Math.round(
+                    (score / maxPoints) * 100
+                );
+
+
+            document
+                .getElementById(
+                    "scoreValue"
+                )
+                .textContent =
+                percentage + "%";
+
+
+            document
+                .getElementById(
+                    "scoreCircle"
+                )
+                .style.setProperty(
+                    "--percentage",
+                    percentage + "%"
+                );
+
+
+            document
+                .getElementById(
+                    "correctAnswers"
+                )
+                .textContent =
+                correctCount;
+
+
+            document
+                .getElementById(
+                    "wrongAnswers"
+                )
+                .textContent =
+                wrongCount;
+
+
+            document
+                .getElementById(
+                    "totalPoints"
+                )
+                .textContent =
+                score;
+
+
+            const message =
+                document.getElementById(
+                    "resultMessage"
+                );
+
+
+            if (percentage >= 90) {
+
+                message.textContent =
+                    `¡Excelente, ${studentName}! Dominas muy bien las razones equivalentes.`;
+
+            } else if (percentage >= 70) {
+
+                message.textContent =
+                    `¡Muy bien, ${studentName}! Tienes un buen dominio del tema.`;
+
+            } else if (percentage >= 50) {
+
+                message.textContent =
+                    `Buen trabajo, ${studentName}. Sigue practicando para mejorar.`;
+
+            } else {
+
+                message.textContent =
+                    `Sigue practicando, ${studentName}. Cada ejercicio te ayudará a mejorar.`;
+
+            }
+
+        }
+
+
+        /* =========================================================
+           SONIDO CORRECTO
+        ========================================================== */
+
+        function playCorrectSound() {
+
+            try {
+
+                const AudioContext =
+                    window.AudioContext ||
+                    window.webkitAudioContext;
+
+
+                const audioContext =
+                    new AudioContext();
+
+
+                const oscillator =
+                    audioContext.createOscillator();
+
+
+                const gain =
+                    audioContext.createGain();
+
+
+                oscillator.connect(gain);
+
+                gain.connect(
+                    audioContext.destination
+                );
+
+
+                oscillator.type =
+                    "sine";
+
+
+                oscillator.frequency.setValueAtTime(
+                    523.25,
+                    audioContext.currentTime
+                );
+
+
+                oscillator.frequency.setValueAtTime(
+                    659.25,
+                    audioContext.currentTime + 0.12
+                );
+
+
+                gain.gain.setValueAtTime(
+                    0.001,
+                    audioContext.currentTime
+                );
+
+
+                gain.gain.exponentialRampToValueAtTime(
+                    0.25,
+                    audioContext.currentTime + 0.02
+                );
+
+
+                gain.gain.exponentialRampToValueAtTime(
+                    0.001,
+                    audioContext.currentTime + 0.4
+                );
+
+
+                oscillator.start();
+
+                oscillator.stop(
+                    audioContext.currentTime + 0.4
+                );
+
+            } catch (error) {
+
+                console.log(
+                    "Audio no disponible"
+                );
+
+            }
+
+        }
+
+
+        /* =========================================================
+           SONIDO INCORRECTO
+        ========================================================== */
+
+        function playIncorrectSound() {
+
+            try {
+
+                const AudioContext =
+                    window.AudioContext ||
+                    window.webkitAudioContext;
+
+
+                const audioContext =
+                    new AudioContext();
+
+
+                const oscillator =
+                    audioContext.createOscillator();
+
+
+                const gain =
+                    audioContext.createGain();
+
+
+                oscillator.connect(gain);
+
+                gain.connect(
+                    audioContext.destination
+                );
+
+
+                oscillator.type =
+                    "sawtooth";
+
+
+                oscillator.frequency.setValueAtTime(
+                    220,
+                    audioContext.currentTime
+                );
+
+
+                oscillator.frequency.setValueAtTime(
+                    150,
+                    audioContext.currentTime + 0.2
+                );
+
+
+                gain.gain.setValueAtTime(
+                    0.001,
+                    audioContext.currentTime
+                );
+
+
+                gain.gain.exponentialRampToValueAtTime(
+                    0.15,
+                    audioContext.currentTime + 0.02
+                );
+
+
+                gain.gain.exponentialRampToValueAtTime(
+                    0.001,
+                    audioContext.currentTime + 0.35
+                );
+
+
+                oscillator.start();
+
+                oscillator.stop(
+                    audioContext.currentTime + 0.35
+                );
+
+            } catch (error) {
+
+                console.log(
+                    "Audio no disponible"
+                );
+
+            }
+
+        }
+
+
+        /* =========================================================
+           ABRIR WORDWALL
+        ========================================================== */
+
+        function openWordwall() {
+
+            window.open(
+                "https://wordwall.net/resource/94585102/razones-equivalentes-simplificar-y-amplificar-sextos-b%C3%A1sicos",
+                "_blank"
+            );
+
+        }
+
+
+        /* =========================================================
+           REINICIAR ACTIVIDAD
+        ========================================================== */
+
+        function restartActivity() {
+
+            currentSlide = 0;
+
+            currentQuestion = 0;
+
+            score = 0;
+
+            correctCount = 0;
+
+            wrongCount = 0;
+
+            selectedAnswer = "";
+
+            questionAnswered = false;
+
+            document
+                .getElementById(
+                    "studentName"
+                )
+                .value = "";
+
+            showScreen(
+                "welcomeScreen"
+            );
+
+        }
+
+
+        /* =========================================================
+           TECLADO
+        ========================================================== */
+
+        document.addEventListener(
+            "keydown",
+            function(event) {
+
+                const lessonVisible =
+                    document
+                        .getElementById(
+                            "lessonScreen"
+                        )
+                        .classList
+                        .contains("active");
+
+
+                if (!lessonVisible) {
+                    return;
+                }
+
+
+                if (
+                    event.key === "ArrowRight"
+                ) {
+
+                    nextSlide();
+
+                }
+
+
+                if (
+                    event.key === "ArrowLeft"
+                ) {
+
+                    previousSlide();
+
+                }
 
             }
         );
 
 
-        area.appendChild(
-            container
-        );
+        /* =========================================================
+           ENTER PARA COMENZAR
+        ========================================================== */
 
-    }
-
-
-    /* =========================================================
-       RESPONDER OPCIÓN
-    ========================================================= */
-
-
-    function answerChoice(
-        button,
-        answer,
-        question
-    ) {
-
-
-        if (answered) {
-
-            return;
-
-        }
-
-
-        answered = true;
-
-
-        const buttons =
-            document.querySelectorAll(
-                ".option"
-            );
-
-
-        buttons.forEach(
-            b =>
-                b.disabled = true
-        );
-
-
-        if (
-            answer ===
-            question.answer
-        ) {
-
-
-            button.classList.add(
-                "correct"
-            );
-
-
-            handleCorrect(
-                question
-            );
-
-
-        } else {
-
-
-            button.classList.add(
-                "incorrect"
-            );
-
-
-            buttons.forEach(
-                b => {
+        document
+            .getElementById(
+                "studentName"
+            )
+            .addEventListener(
+                "keydown",
+                function(event) {
 
                     if (
-                        b.textContent ===
-                        question.answer
+                        event.key === "Enter"
                     ) {
 
-                        b.classList.add(
-                            "correct"
-                        );
+                        startPresentation();
 
                     }
 
@@ -3907,849 +4169,13 @@
             );
 
 
-            handleIncorrect(
-                question
-            );
+        /* =========================================================
+           INICIALIZACIÓN
+        ========================================================== */
 
-        }
+        updateSlide();
 
-
-        setTimeout(
-            nextQuestion,
-            1800
-        );
-
-    }
-
-
-    /* =========================================================
-       CREAR PREGUNTA ESCRITA
-    ========================================================= */
-
-
-    function createInputQuestion(
-        question,
-        area
-    ) {
-
-
-        const input =
-            document.createElement(
-                "input"
-            );
-
-
-        input.type =
-            "text";
-
-
-        input.className =
-            "answer-input";
-
-
-        input.id =
-            "writtenAnswer";
-
-
-        input.placeholder =
-            "Escribe tu respuesta";
-
-
-        area.appendChild(
-            input
-        );
-
-
-        const button =
-            document.createElement(
-                "button"
-            );
-
-
-        button.className =
-            "btn btn-primary";
-
-
-        button.textContent =
-            "✓ Comprobar respuesta";
-
-
-        button.onclick =
-            () =>
-                checkWrittenAnswer(
-                    question
-                );
-
-
-        area.appendChild(
-            button
-        );
-
-
-        setTimeout(
-            () => input.focus(),
-            100
-        );
-
-
-        input.addEventListener(
-            "keydown",
-            event => {
-
-
-                if (
-                    event.key ===
-                    "Enter"
-                ) {
-
-
-                    checkWrittenAnswer(
-                        question
-                    );
-
-                }
-
-            }
-        );
-
-    }
-
-
-    /* =========================================================
-       COMPROBAR RESPUESTA ESCRITA
-    ========================================================= */
-
-
-    function checkWrittenAnswer(
-        question
-    ) {
-
-
-        if (answered) {
-
-            return;
-
-        }
-
-
-        const input =
-            document.getElementById(
-                "writtenAnswer"
-            );
-
-
-        const userAnswer =
-            normalizeAnswer(
-                input.value
-            );
-
-
-        if (!userAnswer) {
-
-
-            input.focus();
-
-            return;
-
-        }
-
-
-        answered = true;
-
-
-        const validAnswers = [
-
-            normalizeAnswer(
-                question.answer
-            ),
-
-            ...(question.alternatives || [])
-                .map(
-                    normalizeAnswer
-                )
-
-        ];
-
-
-        if (
-            validAnswers.includes(
-                userAnswer
-            )
-        ) {
-
-
-            input.style.borderColor =
-                "#16a34a";
-
-
-            input.style.background =
-                "#dcfce7";
-
-
-            handleCorrect(
-                question
-            );
-
-
-        } else {
-
-
-            input.style.borderColor =
-                "#dc2626";
-
-
-            input.style.background =
-                "#fee2e2";
-
-
-            handleIncorrect(
-                question
-            );
-
-        }
-
-
-        setTimeout(
-            nextQuestion,
-            1800
-        );
-
-    }
-
-
-    /* =========================================================
-       NORMALIZAR RESPUESTAS
-    ========================================================= */
-
-
-    function normalizeAnswer(
-        answer
-    ) {
-
-
-        return answer
-            .toLowerCase()
-            .replace(/\s+/g, "")
-            .replace(/:/g, ":")
-            .trim();
-
-    }
-
-
-    /* =========================================================
-       RESPUESTA CORRECTA
-    ========================================================= */
-
-
-    function handleCorrect(
-        question
-    ) {
-
-
-        score +=
-            question.points;
-
-
-        correctCount++;
-
-
-        document.getElementById(
-            "currentScore"
-        ).textContent =
-            score;
-
-
-        const feedback =
-            document.getElementById(
-                "quizFeedback"
-            );
-
-
-        feedback.className =
-            "quiz-feedback feedback-correct";
-
-
-        feedback.innerHTML =
-
-            `🎉 ¡Correcto! +${question.points} puntos.<br>
-             <small>${question.explanation}</small>`;
-
-
-        playCorrectSound();
-
-    }
-
-
-    /* =========================================================
-       RESPUESTA INCORRECTA
-    ========================================================= */
-
-
-    function handleIncorrect(
-        question
-    ) {
-
-
-        incorrectCount++;
-
-
-        const feedback =
-            document.getElementById(
-                "quizFeedback"
-            );
-
-
-        feedback.className =
-            "quiz-feedback feedback-incorrect";
-
-
-        feedback.innerHTML =
-
-            `❌ No es correcto.<br>
-             <small>Respuesta: <strong>${question.answer}</strong>.
-             ${question.explanation}</small>`;
-
-
-        playIncorrectSound();
-
-    }
-
-
-    /* =========================================================
-       SIGUIENTE PREGUNTA
-    ========================================================= */
-
-
-    function nextQuestion() {
-
-
-        currentQuestion++;
-
-
-        if (
-            currentQuestion >=
-            quizQuestions.length
-        ) {
-
-
-            finishQuiz();
-
-
-        } else {
-
-
-            showQuestion();
-
-        }
-
-    }
-
-
-    /* =========================================================
-       FINALIZAR EVALUACIÓN
-    ========================================================= */
-
-
-    function finishQuiz() {
-
-
-        showResult();
-
-
-        showScreen(
-            resultScreen
-        );
-
-    }
-
-
-    /* =========================================================
-       RESULTADO
-    ========================================================= */
-
-
-    function showResult() {
-
-
-        const totalQuestions =
-            quizQuestions.length;
-
-
-        const percentage =
-            Math.round(
-                (
-                    correctCount
-                    /
-                    totalQuestions
-                )
-                * 100
-            );
-
-
-        document.getElementById(
-            "studentResult"
-        ).innerHTML =
-
-            `👤 Estudiante:
-             <strong>${escapeHtml(studentName)}</strong>`;
-
-
-        document.getElementById(
-            "scorePercentage"
-        ).textContent =
-            percentage + "%";
-
-
-        document.getElementById(
-            "correctAnswers"
-        ).textContent =
-            correctCount;
-
-
-        document.getElementById(
-            "incorrectAnswers"
-        ).textContent =
-            incorrectCount;
-
-
-        document.getElementById(
-            "totalPoints"
-        ).textContent =
-            score;
-
-
-        const message =
-            document.getElementById(
-                "resultMessage"
-            );
-
-
-        const emoji =
-            document.getElementById(
-                "resultEmoji"
-            );
-
-
-        if (
-            percentage >= 90
-        ) {
-
-
-            emoji.textContent =
-                "🏆";
-
-
-            message.innerHTML =
-
-                "🌟 ¡Excelente trabajo! " +
-                "Demostraste que comprendes muy bien " +
-                "las razones equivalentes y su simplificación.";
-
-        }
-
-        else if (
-            percentage >= 70
-        ) {
-
-
-            emoji.textContent =
-                "🎉";
-
-
-            message.innerHTML =
-
-                "👏 ¡Muy bien! " +
-                "Comprendes la mayoría de los conceptos. " +
-                "Continúa practicando para dominar el tema.";
-
-        }
-
-        else if (
-            percentage >= 60
-        ) {
-
-
-            emoji.textContent =
-                "💪";
-
-
-            message.innerHTML =
-
-                "👍 Buen esfuerzo. " +
-                "Repasa la regla de simplificación " +
-                "y vuelve a practicar.";
-
-        }
-
-        else {
-
-
-            emoji.textContent =
-                "📚";
-
-
-            message.innerHTML =
-
-                "💡 No te preocupes. " +
-                "Repasa la presentación y vuelve a intentarlo. " +
-                "¡La práctica te ayudará a mejorar!";
-
-        }
-
-
-        updateMainProgress();
-
-    }
-
-
-    /* =========================================================
-       REINICIAR
-    ========================================================= */
-
-
-    function restartActivity() {
-
-
-        studentName = "";
-
-
-        lessonIndex = 0;
-
-
-        currentQuestion = 0;
-
-
-        score = 0;
-
-
-        correctCount = 0;
-
-
-        incorrectCount = 0;
-
-
-        answered = false;
-
-
-        document.getElementById(
-            "studentName"
-        ).value = "";
-
-
-        document.getElementById(
-            "nameError"
-        ).textContent = "";
-
-
-        showScreen(
-            welcomeScreen
-        );
-
-
-        updateMainProgress();
-
-    }
-
-
-    /* =========================================================
-       SONIDO CORRECTO
-    ========================================================= */
-
-
-    function playCorrectSound() {
-
-
-        try {
-
-
-            const AudioContext =
-                window.AudioContext ||
-                window.webkitAudioContext;
-
-
-            const audioContext =
-                new AudioContext();
-
-
-            const oscillator =
-                audioContext.createOscillator();
-
-
-            const gain =
-                audioContext.createGain();
-
-
-            oscillator.connect(
-                gain
-            );
-
-
-            gain.connect(
-                audioContext.destination
-            );
-
-
-            oscillator.type =
-                "sine";
-
-
-            oscillator.frequency.setValueAtTime(
-                523.25,
-                audioContext.currentTime
-            );
-
-
-            oscillator.frequency.setValueAtTime(
-                659.25,
-                audioContext.currentTime + .12
-            );
-
-
-            oscillator.frequency.setValueAtTime(
-                783.99,
-                audioContext.currentTime + .24
-            );
-
-
-            gain.gain.setValueAtTime(
-                .0001,
-                audioContext.currentTime
-            );
-
-
-            gain.gain.exponentialRampToValueAtTime(
-                .18,
-                audioContext.currentTime + .03
-            );
-
-
-            gain.gain.exponentialRampToValueAtTime(
-                .0001,
-                audioContext.currentTime + .45
-            );
-
-
-            oscillator.start();
-
-
-            oscillator.stop(
-                audioContext.currentTime + .45
-            );
-
-
-        } catch (error) {
-
-            console.log(
-                "Audio no disponible"
-            );
-
-        }
-
-    }
-
-
-    /* =========================================================
-       SONIDO INCORRECTO
-    ========================================================= */
-
-
-    function playIncorrectSound() {
-
-
-        try {
-
-
-            const AudioContext =
-                window.AudioContext ||
-                window.webkitAudioContext;
-
-
-            const audioContext =
-                new AudioContext();
-
-
-            const oscillator =
-                audioContext.createOscillator();
-
-
-            const gain =
-                audioContext.createGain();
-
-
-            oscillator.connect(
-                gain
-            );
-
-
-            gain.connect(
-                audioContext.destination
-            );
-
-
-            oscillator.type =
-                "sawtooth";
-
-
-            oscillator.frequency.setValueAtTime(
-                220,
-                audioContext.currentTime
-            );
-
-
-            oscillator.frequency.setValueAtTime(
-                150,
-                audioContext.currentTime + .18
-            );
-
-
-            gain.gain.setValueAtTime(
-                .0001,
-                audioContext.currentTime
-            );
-
-
-            gain.gain.exponentialRampToValueAtTime(
-                .12,
-                audioContext.currentTime + .03
-            );
-
-
-            gain.gain.exponentialRampToValueAtTime(
-                .0001,
-                audioContext.currentTime + .35
-            );
-
-
-            oscillator.start();
-
-
-            oscillator.stop(
-                audioContext.currentTime + .35
-            );
-
-
-        } catch (error) {
-
-            console.log(
-                "Audio no disponible"
-            );
-
-        }
-
-    }
-
-
-    /* =========================================================
-       PROTECCIÓN DE NOMBRE
-    ========================================================= */
-
-
-    function escapeHtml(
-        text
-    ) {
-
-
-        const div =
-            document.createElement(
-                "div"
-            );
-
-
-        div.textContent =
-            text;
-
-
-        return div.innerHTML;
-
-    }
-
-
-    /* =========================================================
-       TECLADO
-    ========================================================= */
-
-
-    document.addEventListener(
-        "keydown",
-        function(event) {
-
-
-            /* ---------------------------------------------
-               DURANTE LAS LECCIONES
-            --------------------------------------------- */
-
-            if (
-                lessonScreen.classList.contains(
-                    "active"
-                )
-            ) {
-
-
-                if (
-                    event.key ===
-                    "ArrowRight"
-                ) {
-
-
-                    nextLesson();
-
-                }
-
-
-                if (
-                    event.key ===
-                    "ArrowLeft"
-                ) {
-
-
-                    previousLesson();
-
-                }
-
-            }
-
-        }
-    );
-
-
-    /* =========================================================
-       ENTER EN PANTALLA INICIAL
-    ========================================================= */
-
-
-    document
-        .getElementById(
-            "studentName"
-        )
-        .addEventListener(
-            "keydown",
-            function(event) {
-
-
-                if (
-                    event.key ===
-                    "Enter"
-                ) {
-
-
-                    startLearning();
-
-                }
-
-            }
-        );
-
-
-    /* =========================================================
-       INICIALIZACIÓN
-    ========================================================= */
-
-
-    updateMainProgress();
-
-</script>
-
+    </script>
 
 </body>
-
 </html>
